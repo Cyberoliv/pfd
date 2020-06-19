@@ -1,0 +1,390 @@
+openapi: 3.0.0
+info:
+  title: cogit
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /briques:
+    get:
+      summary: Liste des briques
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                title: brique
+                type: object
+                x-examples:
+                  cokpit:
+                    projectKey: cokpit
+                    repoName: cokpit
+                    repoSlug: cokpit
+                  portik:
+                    projectKey: TEAM_PFD
+                    repoName: portik
+                    repoSlug: portik
+                  amir:
+                    projectKey: AMIR
+                    repoName: amir
+                    repoSlug: amir
+                description: Brique au sens cogit
+                properties:
+                  projectKey:
+                    type: string
+                    description: Clé du projet dans BitBucket
+                  repoName:
+                    type: string
+                    description: Nom du repo dans BitBucket
+                  repoSlug:
+                    type: string
+                    description: |-
+                      Slug du repo dans BitBucket
+                      Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
+                  '':
+                    type: string
+      operationId: get-briques
+      description: Liste toutes les briques de Bitbucket
+      parameters: []
+  '/{projectKey}/{repoSlug}/versions':
+    get:
+      summary: "Liste les versions d'une brique (repo)"
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Non trouvé
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: parentVersion
+                  type: object
+                  x-examples:
+                    '1.37':
+                      name: '1.37'
+                      versions:
+                        - name: 1.37.0-a1
+                          date: '20201801'
+                          lifeCycle: '??'
+                          branch: develop
+                          currentCycle: alpha
+                          firstVersion: '1.37'
+                          hasVBD: true
+                          description: Lalalala description 1
+                        - name: 1.37.0-rc1
+                          date: '20201804'
+                          lifeCycle: '??'
+                          branch: develop
+                          currentCycle: release
+                          firstVersion: '1.37'
+                          hasVBD: true
+                          description: Lalalala description 2
+                        - name: 1.37.0
+                          date: '20201806'
+                          lifeCycle: '??'
+                          branch: mastser
+                          currentCycle: alpha
+                          firstVersion: '1.37'
+                          hasVBD: true
+                          description: Lalalala description 3
+                  properties:
+                    name:
+                      type: string
+                    versions:
+                      type: array
+                      items:
+                        title: version
+                        type: object
+                        description: ''
+                        properties:
+                          name:
+                            type: string
+                          date:
+                            type: string
+                          lifeCycle:
+                            type: string
+                          branch:
+                            type: string
+                          currentCycle:
+                            type: string
+                          firstVersion:
+                            type: string
+                          hasVBD:
+                            type: boolean
+                          description:
+                            type: string
+                  description: ''
+              examples:
+                example-1: {}
+      operationId: get-versions
+      description: 'Recehrche les verisons "parent (Release ?)" + toutes les versions associées'
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        description: Clé du projet
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        description: 'Slug du repo ("Friendly name")'
+  '/{projectKey}/{repoSlug}/versions/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: GET-DETAIL-VERSION
+      tags: []
+      responses: {}
+      operationId: get-projectKey-repoSlug-versions-name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: version
+              type: object
+              description: ''
+              properties:
+                name:
+                  type: string
+                date:
+                  type: string
+                lifeCycle:
+                  type: string
+                branch:
+                  type: string
+                currentCycle:
+                  type: string
+                firstVersion:
+                  type: string
+                hasVBD:
+                  type: boolean
+                description:
+                  type: string
+        description: ''
+  '/{projectKey}/{repoSlug}/branches':
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+    get:
+      summary: "Liste les branche d'une brique (repo)"
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: branche
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID Bitbuket de la branche
+                    displayId:
+                      type: string
+                      description: "Nom d'affichage"
+                  x-examples:
+                    Develop:
+                      id: refs/heads/develop
+                      displayId: develop
+                    Master:
+                      id: refs/heads/master
+                      displayId: master
+                    Feature Cokpit:
+                      id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
+                      displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
+                  description: "Représentation d'une branche Bitbucket"
+              examples:
+                example-1: {}
+      operationId: get-projectKey-repoSlug-branches
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+    post:
+      summary: "Création d'une branche pour une brique (repo)"
+      tags: []
+      responses: {}
+      operationId: post-projectKey-repoSlug-branches
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type:
+                - object
+                - string
+              properties:
+                name:
+                  type: string
+                  description: Nom de la branche à créer
+            examples:
+              Nouvelle branche de feature pour le cokpit:
+                value:
+                  name: feature/COK-555-formation
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+components:
+  schemas:
+    brique:
+      title: brique
+      type: object
+      x-examples:
+        cokpit:
+          projectKey: cokpit
+          repoName: cokpit
+          repoSlug: cokpit
+        portik:
+          projectKey: TEAM_PFD
+          repoName: portik
+          repoSlug: portik
+        amir:
+          projectKey: AMIR
+          repoName: amir
+          repoSlug: amir
+      description: Brique au sens cogit
+      properties:
+        projectKey:
+          type: string
+          description: Clé du projet dans BitBucket
+        repoName:
+          type: string
+          description: Nom du repo dans BitBucket
+        repoSlug:
+          type: string
+          description: |-
+            Slug du repo dans BitBucket
+            Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
+        '':
+          type: string
+    parentVersion:
+      title: parentVersion
+      type: object
+      x-examples:
+        '1.37':
+          name: '1.37'
+          versions:
+            - name: 1.37.0-a1
+              date: '20201801'
+              lifeCycle: '??'
+              branch: develop
+              currentCycle: alpha
+              firstVersion: '1.37'
+              hasVBD: true
+              description: Lalalala description 1
+            - name: 1.37.0-rc1
+              date: '20201804'
+              lifeCycle: '??'
+              branch: develop
+              currentCycle: release
+              firstVersion: '1.37'
+              hasVBD: true
+              description: Lalalala description 2
+            - name: 1.37.0
+              date: '20201806'
+              lifeCycle: '??'
+              branch: mastser
+              currentCycle: alpha
+              firstVersion: '1.37'
+              hasVBD: true
+              description: Lalalala description 3
+      description: ''
+      properties:
+        name:
+          type: string
+          description: Nom au format X.Y
+        versions:
+          type: array
+          description: Liste de toutes les versions associées à la X.Y
+          items:
+            $ref: '#/components/schemas/version'
+    version:
+      title: version
+      type: object
+      description: ''
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+        lifeCycle:
+          type: string
+        branch:
+          type: string
+        currentCycle:
+          type: string
+        firstVersion:
+          type: string
+        hasVBD:
+          type: boolean
+        description:
+          type: string
+    branche:
+      title: branche
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID Bitbuket de la branche
+        displayId:
+          type: string
+          description: "Nom d'affichage"
+      x-examples:
+        Develop:
+          id: refs/heads/develop
+          displayId: develop
+        Master:
+          id: refs/heads/master
+          displayId: master
+        Feature Cokpit:
+          id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
+          displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
+      description: "Représentation d'une branche Bitbucket"
+  securitySchemes:
+    Test pour voir:
+      type: http
+      scheme: basic
