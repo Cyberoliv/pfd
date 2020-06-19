@@ -407,6 +407,12 @@ components:
             $ref: '#/components/schemas/Branche'
       x-examples:
         example-1: {}
+    PullRequest:
+      title: PullRequest
+      type: object
+      properties:
+        id:
+          type: string
   securitySchemes:
     Test pour voir:
       type: http
