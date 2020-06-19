@@ -270,8 +270,8 @@ paths:
               properties: {}
 components:
   schemas:
-    brique:
-      title: brique
+    Brique:
+      title: Brique
       type: object
       x-examples:
         cokpit:
@@ -300,8 +300,6 @@ components:
           description: |-
             Slug du repo dans BitBucket
             Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
-        '':
-          type: string
     parentVersion:
       title: parentVersion
       type: object
@@ -388,31 +386,118 @@ components:
     Page:
       title: Page
       type: object
+      description: Modèle de la Class Page
       properties:
         size:
           type: integer
+          description: ''
         limit:
           type: integer
+          description: ''
+        isLastPage:
+          type: boolean
+          description: ''
+        start:
+          type: integer
+          description: ''
+        nextPageStart:
+          type: integer
+          description: ''
     BranchePage:
       title: BranchePage
       type: object
+      x-examples:
+        example-1: {}
       properties:
         size:
           type: integer
+          description: Nombre de branches sur la page
         limit:
           type: integer
+          description: Limite de branches par page
+        isLastPage:
+          type: boolean
+          description: "Affiche si c'est la dernière page"
+        start:
+          type: integer
+          description: Affiche à partir de quelle branche la page commence
+        nextPageStart:
+          type: integer
+          description: Affiche à partir de quelle branche la page porchaine page commence
         values:
           type: array
           items:
             $ref: '#/components/schemas/Branche'
-      x-examples:
-        example-1: {}
+      description: Représentation de la Class BranchePage
     PullRequest:
       title: PullRequest
       type: object
       properties:
         id:
+          type: integer
+          description: ID de la pull-request
+        titre:
           type: string
+          description: Titre de la pull-request
+        description:
+          type: string
+          description: description de la pull-resquest
+        etat:
+          type: string
+          description: etat de la pull-request
+        dateCreation:
+          type: number
+          description: date de creation
+        source:
+          type: string
+          description: "d'où provient la pull-request"
+        destination:
+          type: string
+          description: vers où va la pull-request
+      description: Modèle de la Pull-Request
+    PullRequestPage:
+      title: PullRequestPage
+      type: object
+      properties:
+        size:
+          type: integer
+        limit:
+          type: integer
+        isLastPage:
+          type: boolean
+        start:
+          type: integer
+        nextPageStart:
+          type: integer
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/PullRequest'
+      description: Représentation de la Class PullRequestPage
+    BriquePage:
+      title: BriquePage
+      type: object
+      properties:
+        size:
+          type: integer
+          description: Affiche le nombre de brique sur le page
+        limit:
+          type: integer
+          description: Affiche la limite de brique par page
+        isLastPage:
+          type: boolean
+          description: "Affiche si c'est la dernière page"
+        start:
+          type: integer
+          description: Affiche par quelle brique commence la page
+        nextPageStart:
+          type: integer
+          description: Affiche par quelle brique commence la prochaine page
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/Brique'
+      description: ''
   securitySchemes:
     Test pour voir:
       type: http
