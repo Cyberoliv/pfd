@@ -549,6 +549,17 @@ components:
         name:
           type: string
           description: Affiche le nom du projet
+    Clone:
+      title: Clone
+      type: object
+      description: Class appartenant au package Brique
+      properties:
+        href:
+          type: string
+          description: Affiche le lien du Clone
+        name:
+          type: string
+          description: Affiche le nom du clone
   securitySchemes:
     Test pour voir:
       type: http
