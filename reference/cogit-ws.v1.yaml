@@ -406,8 +406,7 @@ components:
     BranchePage:
       title: BranchePage
       type: object
-      x-examples:
-        example-1: {}
+      x-examples: {}
       properties:
         size:
           type: integer
@@ -455,6 +454,27 @@ components:
           type: string
           description: vers où va la pull-request
       description: Modèle de la Pull-Request
+      x-examples:
+        Pull-request DAI:
+          id: 2
+          title: ajout squelette DAI avec services SOAP
+          description: Ajout squelette DAI avec services SOAP
+          state: OPEN
+          createdDate: '1583511882287'
+          fromRef:
+            displayId: init
+          toRef:
+            displayId: develop
+        Pull-request Demo_git:
+          id: 11
+          title: Release/1.1
+          description: "* add a common feature\r\n* add an amaury feature\r\n* WEB-5196"
+          state: OPEN
+          createdDate: '1576846770753'
+          fromRef:
+            displayId: release/1.1
+          toRef:
+            displayId: master
     PullRequestPage:
       title: PullRequestPage
       type: object
@@ -498,6 +518,26 @@ components:
           items:
             $ref: '#/components/schemas/Brique'
       description: ''
+    VersionPage:
+      title: VersionPage
+      type: object
+      description: Représentation de la Class VersionPage
+      properties:
+        size:
+          type: integer
+          description: ''
+        limit:
+          type: integer
+        isLastPage:
+          type: boolean
+        start:
+          type: integer
+        nextPageStart:
+          type: integer
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/parentVersion'
   securitySchemes:
     Test pour voir:
       type: http
