@@ -218,6 +218,35 @@ paths:
       security:
         - Encoded username/password: []
       description: "Création d'une nouvelle branche"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nom de la nouvelle branche à créer
+                startPoint:
+                  type: string
+                  description: Référence de départ de la nouvelle branche
+              required:
+                - name
+                - startPoint
+            examples:
+              Feature depuis Develop:
+                value:
+                  name: feature/AAA-999-Ma-nouvelle-fonctionnalite
+                  startPoint: refs/heads/develop
+              Bugfix depuis Master:
+                value:
+                  name: bugfix/AAA-999-Mon anomalie
+                  startPoint: refs/heads/master
+              Depuis un commit:
+                value:
+                  name: feature/AAA-999-New-ticket
+                  startPoint: 8d351a10fb428c0c1239530256e21cf24f136e73
+        description: ''      
   '/{projectKey}/{repoSlug}/pull-requests':
     get:
       summary: "Liste les PR d'une brique"
@@ -294,35 +323,6 @@ paths:
       security:
         - Encoded username/password: []
       description: "Création d'une nouvelle PR"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: Nom de la nouvelle branche à créer
-                startPoint:
-                  type: string
-                  description: Référence de départ de la nouvelle branche
-              required:
-                - name
-                - startPoint
-            examples:
-              Feature depuis Develop:
-                value:
-                  name: feature/AAA-999-Ma-nouvelle-fonctionnalite
-                  startPoint: refs/heads/develop
-              Bugfix depuis Master:
-                value:
-                  name: bugfix/AAA-999-Mon anomalie
-                  startPoint: refs/heads/master
-              Depuis un commit:
-                value:
-                  name: feature/AAA-999-New-ticket
-                  startPoint: 8d351a10fb428c0c1239530256e21cf24f136e73
-        description: ''
 components:
   schemas: {}
   securitySchemes:
