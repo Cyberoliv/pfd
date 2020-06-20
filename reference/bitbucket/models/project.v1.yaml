@@ -1,0 +1,11 @@
+oject: null
+title: project.v1
+type: object
+description: Class appartenant au package Brique
+properties:
+  key:
+    type: string
+    description: "Affiche l'id le nom du projet"
+  name:
+    type: string
+    description: Affiche le nom du projet

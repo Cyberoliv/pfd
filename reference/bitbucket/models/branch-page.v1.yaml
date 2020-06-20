@@ -1,0 +1,24 @@
+title: branch-page.v1
+type: object
+x-examples: {}
+description: "Représentation d'une page de branches Bitbucket"
+properties:
+  size:
+    type: integer
+    description: Nombre de branches sur la page
+  limit:
+    type: integer
+    description: Limite de branches par page
+  isLastPage:
+    type: boolean
+    description: "Affiche si c'est la dernière page"
+  start:
+    type: integer
+    description: Affiche à partir de quelle branche la page commence
+  nextPageStart:
+    type: integer
+    description: Affiche à partir de quelle branche la page prochaine page commence
+  values:
+    type: array
+    items:
+      $ref: ./branch.v1.yaml

@@ -1,0 +1,22 @@
+title: version.v1
+type: object
+description: |-
+  Détail d'une version
+  Informations croisées Bitbucket & Jira
+properties:
+  name:
+    type: string
+  date:
+    type: string
+  lifeCycle:
+    type: string
+  branch:
+    type: string
+  currentCycle:
+    type: string
+  firstVersion:
+    type: string
+  hasVBD:
+    type: boolean
+  description:
+    type: string

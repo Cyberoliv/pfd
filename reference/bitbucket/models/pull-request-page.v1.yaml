@@ -1,0 +1,24 @@
+title: pull-request-page.1
+type: object
+x-examples: {}
+description: "Représentation d'une page de Pull Requests Bitbucket"
+properties:
+  size:
+    type: integer
+    description: Nombre de Pull Requests sur la page
+  limit:
+    type: integer
+    description: Limite de Pull Requests par page
+  isLastPage:
+    type: boolean
+    description: "Affiche si c'est la dernière page"
+  start:
+    type: integer
+    description: Affiche à partir de quelle Pull Request la page commence
+  nextPageStart:
+    type: integer
+    description: Affiche à partir de quelle Pull Request la page prochaine page commence
+  values:
+    type: array
+    items:
+      $ref: ./pull-request.v1.yaml

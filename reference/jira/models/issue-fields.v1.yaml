@@ -1,0 +1,31 @@
+title: issue-fields.v1
+type: object
+description: "Champs d'un ticket Jira"
+properties:
+  issuetype:
+    $ref: ./issue-type.v1.yaml
+  timespent:
+    type: integer
+    description: Temps passé sur le ticket
+  created:
+    type: string
+    description: Date de création du ticket
+  priority:
+    $ref: ./priority.v1.yaml
+  labels:
+    type: array
+    description: Étiquettes du ticket
+    items:
+      type: string
+  status:
+    $ref: ./status.v1.yaml
+  summary:
+    type: string
+    description: Titre du ticket
+  description:
+    type: string
+    description: Description du ticket
+  reporter:
+    $ref: ./user.v1.yaml
+  assignee:
+    $ref: ./user.v1.yaml

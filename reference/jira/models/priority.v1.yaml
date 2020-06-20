@@ -1,0 +1,11 @@
+oject: null
+title: priority.v1
+type: object
+description: Objet Priorité dans Jira
+properties:
+  name:
+    type: string
+    description: "Nom d'affichage"
+  iconUrl:
+    type: string
+    description: "URL de l'icone"

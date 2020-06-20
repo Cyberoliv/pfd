@@ -1,0 +1,22 @@
+oject: null
+title: status.v1
+type: object
+description: Objet Statut dans Jira
+x-examples:
+  Terminée:
+    name: Terminée
+    iconUrl: 'https://jira.retraite.aa/images/icons/statuses/generic.png'
+properties:
+  name:
+    type: string
+    description: "Nom d'affichage"
+  iconUrl:
+    type: string
+    description: "URL de l'icone"
+  statusCategory:
+    type:
+      - string
+      - object
+    properties:
+      colorName:
+        type: string

@@ -1,0 +1,9 @@
+title: brique.v1
+type: object
+description: ''
+properties:
+  name:
+    type: string
+    description: |-
+      Nom de la brique
+      C'est en fait le nom du repo dans Bitbucket

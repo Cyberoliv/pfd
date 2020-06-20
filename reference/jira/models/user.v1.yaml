@@ -1,0 +1,26 @@
+oject: null
+title: user.v1
+type: object
+description: Objet Utilisateur dans Jira
+properties:
+  name:
+    type: string
+    description: Identifiant (User windows)
+  emailAddress:
+    type: string
+    description: Adresse de courriel
+  displayName:
+    type: string
+    description: "Nom d'affichage"
+  avatarUrls:
+    type: object
+    description: "Liens vers icones de l'avatar"
+    properties:
+      16x16:
+        type: string
+      24x24:
+        type: string
+      32x32:
+        type: string
+      48x48:
+        type: string

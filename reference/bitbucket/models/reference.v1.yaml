@@ -1,0 +1,12 @@
+title: reference.v1
+type: object
+properties:
+  id:
+    type: string
+    description: Id de la branche référencée
+  displayId:
+    type: string
+    description: "Nom d'affichage de la branche référencée"
+  latestCommit:
+    type: string
+    description: Dernier commit sur la branche référencée

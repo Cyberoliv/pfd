@@ -1,0 +1,16 @@
+title: tag.v1
+type: object
+description: Objet TAG de bitbucket
+properties:
+  id:
+    type: string
+    description: ID Bitbucket du TAG
+  displayId:
+    type: string
+    description: "Nom d'affichage"
+  latestCommit:
+    type: string
+    description: Dernier commit sur le TAG
+  latestChangeset:
+    type: string
+    description: Dernière PR sur le TAG

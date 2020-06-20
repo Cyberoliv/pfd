@@ -1,0 +1,8 @@
+title: issue
+type: object
+properties:
+  key:
+    type: string
+    description: Référence de la demande
+  fields:
+    $ref: ./issue-fields.v1.yaml

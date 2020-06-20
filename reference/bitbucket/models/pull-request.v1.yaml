@@ -1,0 +1,26 @@
+title: pull-request.v1
+type: object
+description: Modèle de la Pull-Request
+properties:
+  id:
+    type: integer
+    description: ID de la pull-request
+  title:
+    type: string
+    description: Titre de la pull-request
+  description:
+    type: string
+    description: Description de la pull-resquest
+  state:
+    type: string
+    description: État de la pull-request
+  createdDate:
+    type: number
+    description: Date de creation
+  updatedDate:
+    type: number
+    description: Date de mise à jour
+  fromRef:
+    $ref: ./reference.v1.yaml
+  toRef:
+    $ref: ./reference.v1.yaml

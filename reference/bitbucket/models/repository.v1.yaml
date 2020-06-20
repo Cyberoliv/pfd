@@ -1,0 +1,28 @@
+title: reposisotory.v1
+type: object
+x-examples:
+  cokpit:
+    projectKey: cokpit
+    repoName: cokpit
+    repoSlug: cokpit
+  portik:
+    projectKey: TEAM_PFD
+    repoName: portik
+    repoSlug: portik
+  amir:
+    projectKey: AMIR
+    repoName: amir
+    repoSlug: amir
+  example-4: {}
+description: Repository Bitbucket
+properties:
+  repoName:
+    type: string
+    description: Nom du repo dans BitBucket
+  repoSlug:
+    type: string
+    description: |-
+      Slug du repo dans BitBucket
+      Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
+  project:
+    $ref: ./project.v1.yaml

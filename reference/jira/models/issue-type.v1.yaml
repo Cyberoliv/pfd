@@ -1,0 +1,11 @@
+oject: null
+title: issue-type.v1
+type: object
+description: Objet "Type de ticket" dans Jira
+properties:
+  name:
+    type: string
+    description: "Nom d'affichage"
+  iconUrl:
+    type: string
+    description: "URL de l'icone"

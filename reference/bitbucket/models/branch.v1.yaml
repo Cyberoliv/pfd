@@ -1,0 +1,20 @@
+title: branch.v1
+type: object
+x-examples:
+  Develop:
+    id: refs/heads/develop
+    displayId: develop
+  Master:
+    id: refs/heads/master
+    displayId: master
+  Feature Cokpit:
+    id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
+    displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
+description: "Représentation d'une branche Bitbucket"
+properties:
+  id:
+    type: string
+    description: ID Bitbucket de la branche
+  displayId:
+    type: string
+    description: "Nom d'affichage"

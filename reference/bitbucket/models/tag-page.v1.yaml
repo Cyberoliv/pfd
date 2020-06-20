@@ -1,0 +1,24 @@
+title: tag-page.v1
+type: object
+x-examples: {}
+description: "Représentation d'une page de tags Bitbucket"
+properties:
+  size:
+    type: integer
+    description: Nombre de tags sur la page
+  limit:
+    type: integer
+    description: Limite de tags par page
+  isLastPage:
+    type: boolean
+    description: "Affiche si c'est la dernière page"
+  start:
+    type: integer
+    description: Affiche à partir de quel tag la page commence
+  nextPageStart:
+    type: integer
+    description: Affiche à partir de quel tag la page prochaine page commence
+  values:
+    type: array
+    items:
+      $ref: ./tag.v1.yaml

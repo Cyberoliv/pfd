@@ -1,0 +1,24 @@
+title: reposisotory-page.v1
+type: object
+x-examples: {}
+description: "Représentation d'une page de repository Bitbucket"
+properties:
+  size:
+    type: integer
+    description: Nombre de repos sur la page
+  limit:
+    type: integer
+    description: Limite de repos par page
+  isLastPage:
+    type: boolean
+    description: "Affiche si c'est la dernière page"
+  start:
+    type: integer
+    description: Affiche à partir de quel repo la page commence
+  nextPageStart:
+    type: integer
+    description: Affiche à partir de quel repo la page prochaine page commence
+  values:
+    type: array
+    items:
+      $ref: ./repository.v1.yaml

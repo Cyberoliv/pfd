@@ -1,0 +1,18 @@
+title: issue-page.v1
+type: object
+x-examples: {}
+description: "Représentation d'une page de tickets Jira"
+properties:
+  startAt:
+    type: integer
+    description: Affiche à partir de quel ticket la page commence
+  maxResults:
+    type: integer
+    description: Limite de tickets par page
+  total:
+    type: integer
+    description: Nombre total de tickets
+  issues:
+    type: array
+    items:
+      $ref: ./issue.v1.yaml
