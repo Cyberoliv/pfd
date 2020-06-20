@@ -1,6 +1,6 @@
 title: brique.v1
 type: object
-description: ''
+description: Brique du cogit
 properties:
   name:
     type: string

@@ -1,0 +1,18 @@
+title: branch.v1
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+x-examples:
+  Develop:
+    id: refs/heads/develop
+    name: develop
+  Master:
+    id: refs/heads/master
+    name: master
+  Feature Cokpit:
+    id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
+    name: feature/COK-593-mise-en-oeuvre-abandon-de-version
+description: Branche vue du cogit

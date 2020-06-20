@@ -3,12 +3,17 @@ info:
   title: cogit-ws.v1
   version: 1.0.0
   description: API passerelle pour le cogit
+  contact:
+    name: OGO
+tags:
+  - name: COGIT
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'http://localhost:8080'
+    description: Dev Serveur
 paths:
   /briques:
     get:
-      summary: Get List Briques
+      summary: Liste des briques
       tags: []
       responses:
         '200':
@@ -50,10 +55,274 @@ paths:
           allowEmptyValue: false
           description: |
             Filtre selon les droits d'accès au repos
-          style: ''
+          style: spaceDelimited
       security:
         - Encoded username/password: []
       description: "Liste les briques déclarées dans Bitbucket (repositories)\nLa recherche peut être filtrée au niveau des permissions en paramètre de la requête.\n\n**Note on permissions:** \nIn absence of the permission query parameter the implicit 'read' permission is assumed. Please note that this permission is lower than the REPO_READ permission rather than being equal to it. The implicit 'read' permission for a given repository is assigned to any user that has any of the higher permissions, such as REPO_READ, as well as to anonymous users if the repository is marked as public. The important implication of the above is that an anonymous request to this resource with a permission level REPO_READ is guaranteed to receive an empty list of repositories as a result."
+  '/{projectKey}/{repoSlug}/versions':
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+        description: Clé du projet Bitbucket
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+        description: Slug du repo Bitbucket
+    get:
+      summary: "Liste les versions parent d'une brique"
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/parent-version.v1.yaml
+              examples:
+                Versions X.Y cokpit:
+                  value:
+                    - name: '1.37'
+                      versions: []
+                    - name: '1.36'
+                      versions: []
+                    - name: '1.35'
+                      versions: []
+                    - name: '1.34'
+                      versions: []
+                    - name: '1.33'
+                      versions: []
+                    - name: '1.32'
+                      versions: []
+      operationId: get-projectKey-repoSlug-versions
+      description: "Liste toutes les versions (TAGs) \"Parent\" X.Y d'un projet/repo"
+  '/{projectKey}/{repoSlug}/versions/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+        description: Clé du projet Bitbucket
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+        description: Slug du repo Bitbucket
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+        description: Nom de la version à détailler
+    get:
+      summary: "Détail d'une version parent"
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/parent-version.v1.yaml
+              examples:
+                Détail de la version 1.37 du cokpit:
+                  value:
+                    name: '1.37'
+                    versions:
+                      - name: 1.37.0-a1
+                        date: '20201801'
+                        lifeCycle: '??'
+                        branch: develop
+                        currentCycle: alpha
+                        firstVersion: '1.37'
+                        hasVBD: true
+                        description: Lalalala description 1
+                      - name: 1.37.0-rc1
+                        date: '20201804'
+                        lifeCycle: '??'
+                        branch: develop
+                        currentCycle: release
+                        firstVersion: '1.37'
+                        hasVBD: true
+                        description: Lalalala description 2
+                      - name: 1.37.0
+                        date: '20201806'
+                        lifeCycle: '??'
+                        branch: mastser
+                        currentCycle: alpha
+                        firstVersion: '1.37'
+                        hasVBD: true
+                        description: Lalalala description 3
+      operationId: get-projectKey-repoSlug-versions-name
+      description: "Liste toutes les versions \"Enfant\" d'une version X.Y d'un projet/repo\nLes versions enfant sont toutes les sous-versions \n  X.Y.z-aN\n  X.Y.x-rcN\n  X.Y.z"
+  '/{projectKey}/{repoSlug}/branches':
+    get:
+      summary: "Liste les branches d'une brique"
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/branch.v1.yaml
+              examples:
+                Branches du cokpit:
+                  value:
+                    - id: refs/heads/feature/COK-540-new-artifactory-filtrage-et-mise-a-jour-des-pom
+                      displayId: feature/COK-540-new-artifactory-filtrage-et-mise-a-jour-des-pom
+                    - id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
+                      displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
+                    - id: refs/heads/feature/TECSOCLE-37-tester-la-migration-locale-socle-3-sur-un-projet
+                      displayId: feature/TECSOCLE-37-tester-la-migration-locale-socle-3-sur-un-projet
+                    - id: refs/heads/feature/PFDRC-3728-prototyper-le-resume-sur-un-job-maven
+                      displayId: feature/PFDRC-3728-prototyper-le-resume-sur-un-job-maven
+                    - id: refs/heads/develop
+                      displayId: develop
+                    - id: refs/heads/master
+                      displayId: master
+                    - id: refs/heads/COK-579-initialisation-des-vbds-dans-une-brique
+                      displayId: COK-579-initialisation-des-vbds-dans-une-brique
+      operationId: get-branches
+      description: "Liste les branches d'une brique"
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+        description: Clé du projet Bitbucket
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+        description: Slug du repo Bitbucket
+    post:
+      summary: "Création d'une nouvelle branche"
+      tags: []
+      operationId: post-projectKey-repoSlug-branches
+      responses:
+        '201':
+          description: Created
+      security:
+        - Encoded username/password: []
+      description: "Création d'une nouvelle branche"
+  '/{projectKey}/{repoSlug}/pull-requests':
+    get:
+      summary: "Liste les PR d'une brique"
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/pull-request.v1.yaml
+              examples:
+                Les PR du cokpit:
+                  value:
+                    - id: 41
+                      title: Feature/COK-540 new artifactory filtrage et mise a jour des pom
+                      description: "* COK-540: [New Artifactory] Filtrage et mise à jour des pom\n\n    Task-Url: https://jira.retraite.aa/browse/COK-540\n\nJ'ai supprimé l'antérieur car j'ai changé ce que j'avait fait. \nMerci pour vos commentaires, c'est plus simple maintenant."
+                      state: OPEN
+                      createdDate: 1592487168754
+                      updatedDate: 1592495949375
+                      fromRef:
+                        id: refs/heads/develop
+                        displayId: develop
+                        latestCommit: ab83bf051b1f534a5ee6b61af3e396b75e870c43
+                      toRef:
+                        id: refs/heads/develop
+                        displayId: develop
+                        latestCommit: ab83bf051b1f534a5ee6b61af3e396b75e870c43
+                    - id: 39
+                      title: Feature/COK-593 mise en oeuvre abandon de version
+                      description: |-
+                        * COK-593: Mise en oeuvre abandon de version
+
+                            Task-Url: https://jira.retraite.aa/browse/COK-593
+
+                        * COK-608: [Abandon version] Prise en compte des remarques de la PR
+
+                            Task-Url: https://jira.retraite.aa/browse/COK-608
+                      state: OPEN
+                      createdDate: 1590588194506
+                      updatedDate: 1592495094227
+                      fromRef:
+                        id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
+                        displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
+                        latestCommit: c2080f2d1cdc42975ba3fe7de1558b2cca7b0bf6
+                      toRef:
+                        id: refs/heads/develop
+                        displayId: develop
+                        latestCommit: ab83bf051b1f534a5ee6b61af3e396b75e870c43
+      operationId: get-pull-requests
+      description: "Liste les PR d'une brique"
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+        description: Clé du projet Bitbucket
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+        description: Slug du repo Bitbucket
+    post:
+      summary: "Création d'une nouvelle PR"
+      tags: []
+      operationId: post-projectKey-repoSlug-pull-requests
+      responses:
+        '201':
+          description: Created
+      security:
+        - Encoded username/password: []
+      description: "Création d'une nouvelle PR"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Nom de la nouvelle branche à créer
+                startPoint:
+                  type: string
+                  description: Référence de départ de la nouvelle branche
+              required:
+                - name
+                - startPoint
+            examples:
+              Feature depuis Develop:
+                value:
+                  name: feature/AAA-999-Ma-nouvelle-fonctionnalite
+                  startPoint: refs/heads/develop
+              Bugfix depuis Master:
+                value:
+                  name: bugfix/AAA-999-Mon anomalie
+                  startPoint: refs/heads/master
+              Depuis un commit:
+                value:
+                  name: feature/AAA-999-New-ticket
+                  startPoint: 8d351a10fb428c0c1239530256e21cf24f136e73
+        description: ''
 components:
   schemas: {}
   securitySchemes:

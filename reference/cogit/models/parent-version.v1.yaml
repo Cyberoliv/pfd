@@ -1,6 +1,8 @@
 title: parent-version
 type: object
 description: 'Version "parent"  X.Y'
+x-examples:
+  example-1: {}
 properties:
   name:
     type: string
