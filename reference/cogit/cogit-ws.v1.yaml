@@ -1,13 +1,14 @@
 openapi: 3.0.0
 info:
-  title: cogit
-  version: '1.0'
+  title: cogit-ws.v1
+  version: 1.0.0
+  description: API passerelle pour le cogit
 servers:
   - url: 'http://localhost:3000'
 paths:
   /briques:
     get:
-      summary: Liste des briques
+      summary: Get List Briques
       tags: []
       responses:
         '200':
@@ -15,554 +16,48 @@ paths:
           content:
             application/json:
               schema:
-                title: brique
-                type: object
-                x-examples:
-                  cokpit:
-                    projectKey: cokpit
-                    repoName: cokpit
-                    repoSlug: cokpit
-                  portik:
-                    projectKey: TEAM_PFD
-                    repoName: portik
-                    repoSlug: portik
-                  amir:
-                    projectKey: AMIR
-                    repoName: amir
-                    repoSlug: amir
-                description: Brique au sens cogit
-                properties:
-                  projectKey:
-                    type: string
-                    description: Clé du projet dans BitBucket
-                  repoName:
-                    type: string
-                    description: Nom du repo dans BitBucket
-                  repoSlug:
-                    type: string
-                    description: |-
-                      Slug du repo dans BitBucket
-                      Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
-                  '':
-                    type: string
+                type: array
+                items:
+                  $ref: ./models/brique.v1.yaml
+              examples:
+                repo-read-list:
+                  value:
+                    - name: amir
+                    - name: samir
+                    - name: cokpit
+                    - name: fomration
+                    - name: ota
+                    - name: portik
+                    - name: wrcent
+                    - name: wrcepb
+                    - name: stocdo
+                repo-write-list:
+                  value:
+                    - name: cokpit
+                    - name: fomration
+                    - name: ota
+                    - name: portik
       operationId: get-briques
-      description: Liste toutes les briques de Bitbucket
-      parameters: []
-  '/{projectKey}/{repoSlug}/versions':
-    get:
-      summary: "Liste les versions d'une brique (repo)"
-      tags: []
-      responses:
-        '200':
-          description: OK
-        '404':
-          description: Non trouvé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-        '':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  title: parentVersion
-                  type: object
-                  x-examples:
-                    '1.37':
-                      name: '1.37'
-                      versions:
-                        - name: 1.37.0-a1
-                          date: '20201801'
-                          lifeCycle: '??'
-                          branch: develop
-                          currentCycle: alpha
-                          firstVersion: '1.37'
-                          hasVBD: true
-                          description: Lalalala description 1
-                        - name: 1.37.0-rc1
-                          date: '20201804'
-                          lifeCycle: '??'
-                          branch: develop
-                          currentCycle: release
-                          firstVersion: '1.37'
-                          hasVBD: true
-                          description: Lalalala description 2
-                        - name: 1.37.0
-                          date: '20201806'
-                          lifeCycle: '??'
-                          branch: mastser
-                          currentCycle: alpha
-                          firstVersion: '1.37'
-                          hasVBD: true
-                          description: Lalalala description 3
-                  properties:
-                    name:
-                      type: string
-                    versions:
-                      type: array
-                      items:
-                        title: version
-                        type: object
-                        description: ''
-                        properties:
-                          name:
-                            type: string
-                          date:
-                            type: string
-                          lifeCycle:
-                            type: string
-                          branch:
-                            type: string
-                          currentCycle:
-                            type: string
-                          firstVersion:
-                            type: string
-                          hasVBD:
-                            type: boolean
-                          description:
-                            type: string
-                  description: ''
-              examples:
-                example-1: {}
-      operationId: get-versions
-      description: 'Recehrche les verisons "parent (Release ?)" + toutes les versions associées'
-    parameters:
-      - schema:
-          type: string
-        name: projectKey
-        in: path
-        description: Clé du projet
-      - schema:
-          type: string
-        name: repoSlug
-        in: path
-        description: 'Slug du repo ("Friendly name")'
-  '/{projectKey}/{repoSlug}/versions/{name}':
-    parameters:
-      - schema:
-          type: string
-        name: projectKey
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: repoSlug
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: name
-        in: path
-        required: true
-    get:
-      summary: GET-DETAIL-VERSION
-      tags: []
-      responses: {}
-      operationId: get-projectKey-repoSlug-versions-name
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: version
-              type: object
-              description: ''
-              properties:
-                name:
-                  type: string
-                date:
-                  type: string
-                lifeCycle:
-                  type: string
-                branch:
-                  type: string
-                currentCycle:
-                  type: string
-                firstVersion:
-                  type: string
-                hasVBD:
-                  type: boolean
-                description:
-                  type: string
-        description: ''
-  '/{projectKey}/{repoSlug}/branches':
-    parameters:
-      - schema:
-          type: string
-        name: projectKey
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: repoSlug
-        in: path
-        required: true
-    get:
-      summary: "Liste les branche d'une brique (repo)"
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  title: branche
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      description: ID Bitbuket de la branche
-                    displayId:
-                      type: string
-                      description: "Nom d'affichage"
-                  x-examples:
-                    Develop:
-                      id: refs/heads/develop
-                      displayId: develop
-                    Master:
-                      id: refs/heads/master
-                      displayId: master
-                    Feature Cokpit:
-                      id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
-                      displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
-                  description: "Représentation d'une branche Bitbucket"
-              examples:
-                example-1: {}
-      operationId: get-projectKey-repoSlug-branches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-        description: ''
-    post:
-      summary: "Création d'une branche pour une brique (repo)"
-      tags: []
-      responses: {}
-      operationId: post-projectKey-repoSlug-branches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type:
-                - object
-                - string
-              properties:
-                name:
-                  type: string
-                  description: Nom de la branche à créer
-            examples:
-              Nouvelle branche de feature pour le cokpit:
-                value:
-                  name: feature/COK-555-formation
-          application/xml:
-            schema:
-              type: object
-              properties: {}
-          multipart/form-data:
-            schema:
-              type: object
-              properties: {}
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - REPO_READ
+              - REPO_WRITE
+              - REPO_ADMIN
+          in: query
+          name: permission
+          allowEmptyValue: false
+          description: |
+            Filtre selon les droits d'accès au repos
+          style: ''
+      security:
+        - Encoded username/password: []
+      description: "Liste les briques déclarées dans Bitbucket (repositories)\nLa recherche peut être filtrée au niveau des permissions en paramètre de la requête.\n\n**Note on permissions:** \nIn absence of the permission query parameter the implicit 'read' permission is assumed. Please note that this permission is lower than the REPO_READ permission rather than being equal to it. The implicit 'read' permission for a given repository is assigned to any user that has any of the higher permissions, such as REPO_READ, as well as to anonymous users if the repository is marked as public. The important implication of the above is that an anonymous request to this resource with a permission level REPO_READ is guaranteed to receive an empty list of repositories as a result."
 components:
-  schemas:
-    Brique:
-      title: Brique
-      type: object
-      x-examples:
-        cokpit:
-          projectKey: cokpit
-          repoName: cokpit
-          repoSlug: cokpit
-        portik:
-          projectKey: TEAM_PFD
-          repoName: portik
-          repoSlug: portik
-        amir:
-          projectKey: AMIR
-          repoName: amir
-          repoSlug: amir
-        example-4: {}
-      description: Brique au sens cogit
-      properties:
-        projectKey:
-          type: string
-          description: Clé du projet dans BitBucket
-        repoName:
-          type: string
-          description: Nom du repo dans BitBucket
-        repoSlug:
-          type: string
-          description: |-
-            Slug du repo dans BitBucket
-            Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
-    parentVersion:
-      title: parentVersion
-      type: object
-      x-examples:
-        '1.37':
-          name: '1.37'
-          versions:
-            - name: 1.37.0-a1
-              date: '20201801'
-              lifeCycle: '??'
-              branch: develop
-              currentCycle: alpha
-              firstVersion: '1.37'
-              hasVBD: true
-              description: Lalalala description 1
-            - name: 1.37.0-rc1
-              date: '20201804'
-              lifeCycle: '??'
-              branch: develop
-              currentCycle: release
-              firstVersion: '1.37'
-              hasVBD: true
-              description: Lalalala description 2
-            - name: 1.37.0
-              date: '20201806'
-              lifeCycle: '??'
-              branch: mastser
-              currentCycle: alpha
-              firstVersion: '1.37'
-              hasVBD: true
-              description: Lalalala description 3
-      description: "Modèle d'une version X.Y"
-      properties:
-        name:
-          type: string
-          description: Nom au format X.Y
-        versions:
-          type: array
-          description: Liste de toutes les versions associées à la X.Y
-          items:
-            $ref: '#/components/schemas/version'
-    version:
-      title: version
-      type: object
-      description: ''
-      properties:
-        name:
-          type: string
-        date:
-          type: string
-        lifeCycle:
-          type: string
-        branch:
-          type: string
-        currentCycle:
-          type: string
-        firstVersion:
-          type: string
-        hasVBD:
-          type: boolean
-        description:
-          type: string
-    Branche:
-      title: Branche
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID Bitbuket de la branche
-        displayId:
-          type: string
-          description: "Nom d'affichage"
-      x-examples:
-        Develop:
-          id: refs/heads/develop
-          displayId: develop
-        Master:
-          id: refs/heads/master
-          displayId: master
-        Feature Cokpit:
-          id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
-          displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
-      description: "Représentation d'une branche Bitbucket"
-    Page:
-      title: Page
-      type: object
-      description: Modèle de la Class Page
-      properties:
-        size:
-          type: integer
-          description: ''
-        limit:
-          type: integer
-          description: ''
-        isLastPage:
-          type: boolean
-          description: ''
-        start:
-          type: integer
-          description: ''
-        nextPageStart:
-          type: integer
-          description: ''
-    BranchePage:
-      title: BranchePage
-      type: object
-      x-examples: {}
-      properties:
-        size:
-          type: integer
-          description: Nombre de branches sur la page
-        limit:
-          type: integer
-          description: Limite de branches par page
-        isLastPage:
-          type: boolean
-          description: "Affiche si c'est la dernière page"
-        start:
-          type: integer
-          description: Affiche à partir de quelle branche la page commence
-        nextPageStart:
-          type: integer
-          description: Affiche à partir de quelle branche la page porchaine page commence
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/Branche'
-      description: Représentation de la Class BranchePage
-    PullRequest:
-      title: PullRequest
-      type: object
-      properties:
-        id:
-          type: integer
-          description: ID de la pull-request
-        titre:
-          type: string
-          description: Titre de la pull-request
-        description:
-          type: string
-          description: description de la pull-resquest
-        etat:
-          type: string
-          description: etat de la pull-request
-        dateCreation:
-          type: number
-          description: date de creation
-        source:
-          type: string
-          description: "d'où provient la pull-request"
-        destination:
-          type: string
-          description: vers où va la pull-request
-      description: Modèle de la Pull-Request
-      x-examples:
-        Pull-request DAI:
-          id: 2
-          title: ajout squelette DAI avec services SOAP
-          description: Ajout squelette DAI avec services SOAP
-          state: OPEN
-          createdDate: '1583511882287'
-          fromRef:
-            displayId: init
-          toRef:
-            displayId: develop
-        Pull-request Demo_git:
-          id: 11
-          title: Release/1.1
-          description: "* add a common feature\r\n* add an amaury feature\r\n* WEB-5196"
-          state: OPEN
-          createdDate: '1576846770753'
-          fromRef:
-            displayId: release/1.1
-          toRef:
-            displayId: master
-    PullRequestPage:
-      title: PullRequestPage
-      type: object
-      properties:
-        size:
-          type: integer
-        limit:
-          type: integer
-        isLastPage:
-          type: boolean
-        start:
-          type: integer
-        nextPageStart:
-          type: integer
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/PullRequest'
-      description: Représentation de la Class PullRequestPage
-    BriquePage:
-      title: BriquePage
-      type: object
-      properties:
-        size:
-          type: integer
-          description: Affiche le nombre de brique sur le page
-        limit:
-          type: integer
-          description: Affiche la limite de brique par page
-        isLastPage:
-          type: boolean
-          description: "Affiche si c'est la dernière page"
-        start:
-          type: integer
-          description: Affiche par quelle brique commence la page
-        nextPageStart:
-          type: integer
-          description: Affiche par quelle brique commence la prochaine page
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/Brique'
-      description: ''
-    VersionPage:
-      title: VersionPage
-      type: object
-      description: Représentation de la Class VersionPage
-      properties:
-        size:
-          type: integer
-          description: ''
-        limit:
-          type: integer
-        isLastPage:
-          type: boolean
-        start:
-          type: integer
-        nextPageStart:
-          type: integer
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/parentVersion'
-      x-examples:
-        example-1: {}
-    Project:
-      title: Project
-      type: object
-      description: Class appartenant au package Brique
-      properties:
-        key:
-          type: string
-          description: "Affiche l'id le nom du projet"
-        name:
-          type: string
-          description: Affiche le nom du projet
-    Clone:
-      title: Clone
-      type: object
-      description: Class appartenant au package Brique
-      properties:
-        href:
-          type: string
-          description: Affiche le lien du Clone
-        name:
-          type: string
-          description: Affiche le nom du clone
+  schemas: {}
   securitySchemes:
-    Test pour voir:
+    Encoded username/password:
       type: http
       scheme: basic
+      description: ''
