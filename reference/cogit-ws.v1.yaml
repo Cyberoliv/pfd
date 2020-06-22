@@ -560,6 +560,10 @@ components:
         name:
           type: string
           description: Affiche le nom du clone
+      x-examples:
+        Clone projet Amir:
+          href: 'https://bdsbbu-h.retraite.aa/scm/amir/amir.git'
+          name: http
     BrancheData:
       title: BrancheData
       type: object
@@ -591,6 +595,10 @@ components:
       properties:
         href:
           type: string
+      x-examples:
+        Self projet Amir:
+          rel: self
+          href: 'https://bdsbbu-h.retraite.aa/projects/AMIR/repos/amir/browse'
   securitySchemes:
     Test pour voir:
       type: http
