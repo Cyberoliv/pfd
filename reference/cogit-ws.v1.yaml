@@ -552,7 +552,7 @@ components:
     Clone:
       title: Clone
       type: object
-      description: Class appartenant au package Brique
+      description: "Class permettant d'afficher le lien clone d'une brique"
       properties:
         href:
           type: string
@@ -575,7 +575,7 @@ components:
     Reference:
       title: Reference
       type: object
-      description: Pull-Requests Data
+      description: "Pull-Requests Data, permet d'afficher l'id de la PR"
       properties:
         displayId:
           type: string
@@ -591,14 +591,15 @@ components:
     Self:
       title: Self
       type: object
-      description: Class appartenant au model brique
-      properties:
-        href:
-          type: string
+      description: "Class permettant d'afficher le lien self d'un projet"
       x-examples:
         Self projet Amir:
           rel: self
           href: 'https://bdsbbu-h.retraite.aa/projects/AMIR/repos/amir/browse'
+      properties:
+        href:
+          type: string
+          description: affiche le lien self
   securitySchemes:
     Test pour voir:
       type: http
