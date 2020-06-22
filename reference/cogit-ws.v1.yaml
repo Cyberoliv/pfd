@@ -128,7 +128,7 @@ paths:
               examples:
                 example-1: {}
       operationId: get-versions
-      description: 'Recehrche les verisons "parent (Release ?)" + toutes les versions associées'
+      description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
     parameters:
       - schema:
           type: string
@@ -560,6 +560,30 @@ components:
         name:
           type: string
           description: Affiche le nom du clone
+    BrancheData:
+      title: BrancheData
+      type: object
+      properties:
+        id:
+          type: string
+        displayId:
+          type: string
+    Reference:
+      title: Reference
+      type: object
+      description: Pull-Requests Data
+      properties:
+        displayId:
+          type: string
+    LinkDef:
+      title: LinkDef
+      type: object
+      description: Class appartenant au model brique
+      properties:
+        href:
+          type: string
+        name:
+          type: string
   securitySchemes:
     Test pour voir:
       type: http
