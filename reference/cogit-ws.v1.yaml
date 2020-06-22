@@ -99,6 +99,21 @@ paths:
               type: object
               properties: {}
         description: ''
+  /pull-requests:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PullRequest'
+      operationId: get-pull-requests
+      description: Liste toutes les pull-requests
 components:
   schemas:
     Brique:
