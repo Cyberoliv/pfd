@@ -101,7 +101,7 @@ paths:
         description: ''
   /pull-requests:
     get:
-      summary: Your GET endpoint
+      summary: Liste les Pull-Requests
       tags: []
       responses:
         '200':
