@@ -584,6 +584,13 @@ components:
           type: string
         name:
           type: string
+    Self:
+      title: Self
+      type: object
+      description: Class appartenant au model brique
+      properties:
+        href:
+          type: string
   securitySchemes:
     Test pour voir:
       type: http
