@@ -38,6 +38,12 @@ paths:
                 description: Brique au sens cogit
                 items:
                   $ref: '#/components/schemas/Brique'
+        '202':
+          description: Accepted
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
       operationId: get-briques
       description: Liste toutes les briques de Bitbucket
       parameters:
@@ -120,6 +126,8 @@ paths:
                   $ref: '#/components/schemas/PullRequest'
       operationId: get-pull-requests
       description: Liste toutes les pull-requests
+      security:
+        - Basic Auth: []
     parameters:
       - schema:
           type: string
@@ -135,10 +143,19 @@ paths:
         description: 'Slug du repo ("Friendly name")'
   /tickets:
     get:
-      summary: Your GET endpoint
+      summary: Liste de tickets Jira
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
       operationId: get-tickets
+      description: Liste de tickets Jira
 components:
   schemas:
     Brique:
