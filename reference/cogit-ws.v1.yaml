@@ -83,11 +83,13 @@ paths:
         name: projectKey
         in: path
         required: true
+        description: Clé du projet
       - schema:
           type: string
         name: repoSlug
         in: path
         required: true
+        description: 'Slug du repo ("Friendly name")'
     get:
       summary: "Liste les branches d'une brique (repo)"
       tags: []
@@ -124,11 +126,13 @@ paths:
         name: projectKey
         in: path
         required: true
+        description: Clé du projet
       - schema:
           type: string
         name: repoSlug
         in: path
         required: true
+        description: 'Slug du repo ("Friendly name")'
 components:
   schemas:
     Brique:
