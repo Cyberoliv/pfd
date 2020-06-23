@@ -133,6 +133,12 @@ paths:
         in: path
         required: true
         description: 'Slug du repo ("Friendly name")'
+  /tickets:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-tickets
 components:
   schemas:
     Brique:
@@ -282,6 +288,23 @@ components:
         toRef:
           type: string
           description: vers où va la pull-request
+    Ticket:
+      title: Ticket
+      type: object
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        type:
+          type: string
+        state:
+          type: string
+        priority:
+          type: string
+      description: "Modèle d'un ticket"
+      x-examples:
+        ticket: {}
   securitySchemes:
     Basic Auth:
       type: http
