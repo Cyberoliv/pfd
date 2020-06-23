@@ -2,8 +2,13 @@ openapi: 3.0.0
 info:
   title: cogit
   version: '1.0'
+  contact:
+    name: 'Penthai & Olivier'
+  description: "Passerelle d'échange entre l'IHM et les autres outils (Bitbucket & Jira)"
 servers:
   - url: 'http://localhost:3000'
+tags:
+  - name: cogit
 paths:
   /briques:
     get:
@@ -35,7 +40,13 @@ paths:
                   $ref: '#/components/schemas/Brique'
       operationId: get-briques
       description: Liste toutes les briques de Bitbucket
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: permission
+          description: Droits sur les repos
+    parameters: []
   '/{projectKey}/{repoSlug}/versions':
     get:
       summary: "Liste les versions d'une brique (repo)"
@@ -43,15 +54,13 @@ paths:
       responses:
         '200':
           description: OK
-        '':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/parentVersion'
-              examples:
-                example-1: {}
+                  $ref: '#/components/schemas/ParentVersion'
+              examples: {}
       operationId: get-versions
       description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
     parameters:
@@ -60,11 +69,13 @@ paths:
         name: projectKey
         in: path
         description: Clé du projet
+        required: true
       - schema:
           type: string
         name: repoSlug
         in: path
         description: 'Slug du repo ("Friendly name")'
+        required: true
   '/{projectKey}/{repoSlug}/branches':
     parameters:
       - schema:
@@ -78,7 +89,7 @@ paths:
         in: path
         required: true
     get:
-      summary: "Liste les branche d'une brique (repo)"
+      summary: "Liste les branches d'une brique (repo)"
       tags: []
       responses:
         '200':
@@ -89,17 +100,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Branche'
-              examples:
-                example-1: {}
+              examples: {}
       operationId: get-projectKey-repoSlug-branches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-        description: ''
-  /pull-requests:
+      description: "Liste les branches d'une brique (repo)"
+  '/{projectKey}/{repoSlug}/pull-requests':
     get:
       summary: Liste les Pull-Requests
       tags: []
@@ -114,6 +118,17 @@ paths:
                   $ref: '#/components/schemas/PullRequest'
       operationId: get-pull-requests
       description: Liste toutes les pull-requests
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
 components:
   schemas:
     Brique:
@@ -126,44 +141,34 @@ components:
           name: portik
         amir:
           name: amir
-        example-4: {}
       description: Brique au sens cogit
       properties:
         name:
           type: string
           description: Clé du projet dans BitBucket
-    parentVersion:
-      title: parentVersion
+    ParentVersion:
+      title: ParentVersion
       type: object
       x-examples:
         '1.37':
           name: '1.37'
           versions:
             - name: 1.37.0-a1
-              date: '20201801'
-              lifeCycle: '??'
-              branch: develop
-              currentCycle: alpha
-              firstVersion: '1.37'
-              hasVBD: true
+              createdDate: '20201801'
+              lifeCycle: Alpha
+              currentCycle: a1
               description: Lalalala description 1
-            - name: 1.37.0-rc1
-              date: '20201804'
-              lifeCycle: '??'
-              branch: develop
-              currentCycle: release
-              firstVersion: '1.37'
-              hasVBD: true
+            - name: 1.37.0-rc3
+              createdDate: '20201804'
+              lifeCycle: Release Candidate
+              currentCycle: rc3
               description: Lalalala description 2
             - name: 1.37.0
-              date: '20201806'
-              lifeCycle: '??'
-              branch: mastser
-              currentCycle: alpha
-              firstVersion: '1.37'
-              hasVBD: true
+              createdDate: '20201806'
+              lifeCycle: Livrée
+              currentCycle: ''
               description: Lalalala description 3
-      description: "Modèle d'une version X.Y"
+      description: "Modèle d'une version X.Y\n+ Toutes ses versions \n   - X.Y.Z-aNN \n   - X.Y.Z-rcNN \n   - X.Y.Z"
       properties:
         name:
           type: string
@@ -172,38 +177,45 @@ components:
           type: array
           description: Liste de toutes les versions associées à la X.Y
           items:
-            $ref: '#/components/schemas/version'
-    version:
-      title: version
+            $ref: '#/components/schemas/Version'
+    Version:
+      title: Version
       type: object
-      description: ''
+      description: "Détail d'une version"
       properties:
         name:
           type: string
-        date:
+        createdDate:
           type: string
+          description: Date à laquelle a été posé le TAG dans GIT
         lifeCycle:
-          type: string
-        branch:
           type: string
         currentCycle:
           type: string
-        firstVersion:
-          type: string
-        hasVBD:
-          type: boolean
         description:
           type: string
+      x-examples:
+        Version Alpha:
+          name: 1.37.0-a1
+          createdDate: '20201801'
+          lifeCycle: Alpha
+          currentCycle: a1
+          description: Lalalala description 1
+        Version RC:
+          name: 1.37.0-rc3
+          createdDate: '20201804'
+          lifeCycle: Release Candidate
+          currentCycle: rc3
+          description: Lalalala description 2
+        Livrée:
+          name: 1.37.0
+          createdDate: '20201806'
+          lifeCycle: Livrée
+          currentCycle: ''
+          description: Lalalala description 3
     Branche:
       title: Branche
       type: object
-      properties:
-        id:
-          type: string
-          description: ID Bitbuket de la branche
-        displayId:
-          type: string
-          description: "Nom d'affichage"
       x-examples:
         Develop:
           id: refs/heads/develop
@@ -214,54 +226,58 @@ components:
         Feature Cokpit:
           id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
           displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
-      description: "Représentation d'une branche Bitbucket"
+      description: "Représentation d'une branche"
+      properties:
+        id:
+          type: string
+          description: ID Bitbuket de la branche
+        displayId:
+          type: string
+          description: "Nom d'affichage"
     PullRequest:
       title: PullRequest
       type: object
-      properties:
-        id:
-          type: integer
-          description: ID de la pull-request
-        titre:
-          type: string
-          description: Titre de la pull-request
-        description:
-          type: string
-          description: description de la pull-resquest
-        etat:
-          type: string
-          description: etat de la pull-request
-        dateCreation:
-          type: number
-          description: date de creation
-        source:
-          type: string
-          description: "d'où provient la pull-request"
-        destination:
-          type: string
-          description: vers où va la pull-request
       description: Modèle de la Pull-Request
       x-examples:
-        Pull-request DAI:
-          id: 2
-          title: ajout squelette DAI avec services SOAP
-          description: Ajout squelette DAI avec services SOAP
+        Pull-request Cokpit:
+          id: 41
+          title: Feature/COK-540 new artifactory filtrage et mise a jour des pom
+          description: "* COK-540: [New Artifactory] Filtrage et mise à jour des pom\n\n    Task-Url: https://jira.retraite.aa/browse/COK-540\n\nJ'ai supprimé l'antérieur car j'ai changé ce que j'avait fait. \nMerci pour vos commentaires, c'est plus simple maintenant."
           state: OPEN
-          createdDate: '1583511882287'
-          fromRef:
-            displayId: init
-          toRef:
-            displayId: develop
+          createdDate: '2020-06-23'
+          fromRef: feature/COK-540-new-artifactory-filtrage-et-mise-a-jour-des-pom
+          toRef: develop
         Pull-request Demo_git:
           id: 11
           title: Release/1.1
           description: "* add a common feature\r\n* add an amaury feature\r\n* WEB-5196"
           state: OPEN
-          createdDate: '1576846770753'
-          fromRef:
-            displayId: release/1.1
-          toRef:
-            displayId: master
+          createdDate: '2020-06-23'
+          fromRef: release/1.1
+          toRef: master
+      properties:
+        id:
+          type: integer
+          description: ID de la pull-request
+        title:
+          type: string
+          description: Titre de la pull-request
+        description:
+          type: string
+          description: description de la pull-resquest
+        state:
+          type: string
+          description: etat de la pull-request
+        createdDate:
+          description: date de creation
+          format: date
+          type: string
+        fromRef:
+          type: string
+          description: "d'où provient la pull-request"
+        toRef:
+          type: string
+          description: vers où va la pull-request
   securitySchemes:
     Test pour voir:
       type: http
