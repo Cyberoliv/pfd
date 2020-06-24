@@ -38,6 +38,13 @@ paths:
                 description: Brique au sens cogit
                 items:
                   $ref: '#/components/schemas/Brique'
+              examples:
+                briques:
+                  value:
+                    - name: cokpit
+                    - name: ota
+                    - name: formation
+                    - name: démo
         '202':
           description: Accepted
         '400':
@@ -45,7 +52,7 @@ paths:
         '401':
           description: Unauthorized
       operationId: get-briques
-      description: Liste toutes les briques de Bitbucket
+      description: Liste toutes les briques de Bitbucket (repos)
       parameters:
         - schema:
             type: string
@@ -156,6 +163,25 @@ paths:
                   $ref: '#/components/schemas/Ticket'
       operationId: get-tickets
       description: Liste de tickets Jira
+  '/briques/{name}':
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    get:
+      summary: Détail de la brique du cokpit
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brique'
+      operationId: get-briques-name
+      description: Détail de la brique du cokpit
 components:
   schemas:
     Brique:
