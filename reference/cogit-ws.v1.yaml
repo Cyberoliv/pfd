@@ -73,7 +73,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ParentVersion'
-              examples: {}
+              examples:
+                example-1: {}
       operationId: get-versions
       description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
     parameters:
@@ -235,18 +236,6 @@ components:
       title: Version
       type: object
       description: "Détail d'une version"
-      properties:
-        name:
-          type: string
-        createdDate:
-          type: string
-          description: Date à laquelle a été posé le TAG dans GIT
-        lifeCycle:
-          type: string
-        currentCycle:
-          type: string
-        description:
-          type: string
       x-examples:
         Version Alpha:
           name: 1.37.0-a1
@@ -266,6 +255,18 @@ components:
           lifeCycle: Livrée
           currentCycle: ''
           description: Lalalala description 3
+      properties:
+        name:
+          type: string
+        createdDate:
+          description: Date à laquelle a été posé le TAG dans GIT
+          type: integer
+        lifeCycle:
+          type: string
+        currentCycle:
+          type: string
+        description:
+          type: string
     Branche:
       title: Branche
       type: object
@@ -324,7 +325,7 @@ components:
         createdDate:
           description: date de creation
           format: date
-          type: string
+          type: integer
         fromRef:
           type: string
           description: "d'où provient la pull-request"
