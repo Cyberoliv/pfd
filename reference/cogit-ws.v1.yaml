@@ -73,8 +73,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ParentVersion'
-              examples:
-                example-1: {}
+              examples: {}
       operationId: get-versions
       description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
     parameters:
