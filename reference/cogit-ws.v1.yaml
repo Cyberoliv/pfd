@@ -49,18 +49,21 @@ paths:
           description: Accepted
         '400':
           description: Bad Request
-        '401':
-          description: Unauthorized
       operationId: get-briques
       description: Liste toutes les briques de Bitbucket (repos)
       parameters:
         - schema:
             type: string
+            enum:
+              - READ
+              - WRITE
+              - ADMIN
           in: query
           name: permission
           description: Droits sur les repos
+          allowEmptyValue: true
     parameters: []
-  '/{projectKey}/{repoSlug}/versions':
+  '/projects/{projectKey}/repos/{repoSlug}/versions':
     get:
       summary: "Liste les versions d'une brique (repo)"
       tags: []
@@ -89,7 +92,7 @@ paths:
         in: path
         description: 'Slug du repo ("Friendly name")'
         required: true
-  '/{projectKey}/{repoSlug}/branches':
+  '/projects/{projectKey}/repos/{repoSlug}/branches':
     parameters:
       - schema:
           type: string
@@ -118,7 +121,7 @@ paths:
               examples: {}
       operationId: get-projectKey-repoSlug-branches
       description: "Liste les branches d'une brique (repo)"
-  '/{projectKey}/{repoSlug}/pull-requests':
+  '/projects/{projectKey}/repos/{repoSlug}/pull-requests':
     get:
       summary: Liste les Pull-Requests
       tags: []
@@ -148,7 +151,7 @@ paths:
         in: path
         required: true
         description: 'Slug du repo ("Friendly name")'
-  /tickets:
+  /issues:
     get:
       summary: Liste de tickets Jira
       tags: []
@@ -160,28 +163,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Ticket'
+                  $ref: '#/components/schemas/Issue'
       operationId: get-tickets
       description: Liste de tickets Jira
-  '/briques/{name}':
-    parameters:
-      - schema:
-          type: string
-        name: name
-        in: path
-        required: true
-    get:
-      summary: Détail de la brique du cokpit
-      tags: []
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Brique'
-      operationId: get-briques-name
-      description: Détail de la brique du cokpit
+    parameters: []
 components:
   schemas:
     Brique:
@@ -258,16 +243,17 @@ components:
         name:
           type: string
         createdDate:
-          description: Date à laquelle a été posé le TAG dans GIT
           type: integer
+          description: Date à laquelle a été posé le TAG dans GIT
+          format: int64
         lifeCycle:
           type: string
         currentCycle:
           type: string
         description:
           type: string
-    Branche:
-      title: Branche
+    Branch:
+      title: Branch
       type: object
       x-examples:
         Develop:
@@ -322,17 +308,17 @@ components:
           type: string
           description: etat de la pull-request
         createdDate:
-          description: date de creation
-          format: date
           type: integer
+          description: date de creation
+          format: int64
         fromRef:
           type: string
           description: "d'où provient la pull-request"
         toRef:
           type: string
           description: vers où va la pull-request
-    Ticket:
-      title: Ticket
+    Issue:
+      title: Issue
       type: object
       properties:
         id:
@@ -345,9 +331,8 @@ components:
           type: string
         priority:
           type: string
-      description: "Modèle d'un ticket"
-      x-examples:
-        ticket: {}
+      description: "Modèle d'une issue (Tiket) dans Jira"
+      x-examples: {}
   securitySchemes:
     Basic Auth:
       type: http
