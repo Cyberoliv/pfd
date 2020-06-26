@@ -96,6 +96,8 @@ paths:
                       lifeCycle: null
                       currentCycle: null
                       description: ''
+        '400':
+          description: Bad Request
         '503':
           description: Service Unavailable
       operationId: get-versions
