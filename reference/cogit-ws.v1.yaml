@@ -49,8 +49,20 @@ paths:
           description: Accepted
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
         '503':
           description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
       operationId: get-briques
       description: Liste toutes les briques de Bitbucket (repos)
       parameters:
@@ -96,10 +108,25 @@ paths:
                       lifeCycle: null
                       currentCycle: null
                       description: ''
+        '201':
+          description: Created
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              examples: {}
         '503':
           description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
       operationId: get-versions
       description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
     parameters:
@@ -160,6 +187,12 @@ paths:
           description: No Content
         '503':
           description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
       operationId: get-projectKey-repoSlug-branches
       description: "Liste les branches d'une brique (repo)"
   '/projects/{projectKey}/repos/{repoSlug}/pull-requests':
@@ -203,8 +236,20 @@ paths:
           description: No content
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
         '503':
           description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
       operationId: get-pull-requests
       description: Liste toutes les pull-requests
       security:
@@ -254,6 +299,12 @@ paths:
           description: Created
         '503':
           description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
       operationId: get-tickets
       description: Liste de tickets Jira
     parameters: []
@@ -451,6 +502,22 @@ components:
               status:
                 iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/visible.png'
                 name: En vérification
+    Error:
+      title: Error
+      type: object
+      properties:
+        errorStatus:
+          type: integer
+        errorMessage:
+          type: string
+      description: "Modèle des codes d'erreurs"
+      x-examples:
+        Error 400:
+          errorStatus: 400
+          errorMessage: Bad request
+        Error 503:
+          errorStatus: 503
+          errorMessage: Service unavailable
   securitySchemes:
     Basic Auth:
       type: http
