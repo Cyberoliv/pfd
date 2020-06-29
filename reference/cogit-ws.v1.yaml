@@ -410,7 +410,35 @@ components:
         priority:
           type: string
       description: "Modèle d'une issue (Tiket) dans Jira"
-      x-examples: {}
+      x-examples:
+        ZDUP-59:
+          - id: 151317
+            key: ZDUP-59
+            fields:
+              created: '2020-03-11T10:07:58.000+0100'
+              priority:
+                iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                name: 1 - Critique
+              issuetype:
+                iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                name: Récit
+              status:
+                iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                name: Terminée
+        ZDUP-58:
+          - id: 136231
+            key: ZDUP-58
+            fields:
+              created: '2019-11-26T17:59:50.000+0100'
+              priority:
+                iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                name: 1 - Critique
+              issuetype:
+                iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12803&avatarType=issuetype'
+                name: Anomalie
+              status:
+                iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/visible.png'
+                name: En vérification
   securitySchemes:
     Basic Auth:
       type: http
