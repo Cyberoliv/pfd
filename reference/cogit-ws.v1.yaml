@@ -237,7 +237,19 @@ paths:
                   $ref: '#/components/schemas/Issue'
               examples:
                 issues:
-                  value: {}
+                  value:
+                    - id: 151317
+                      key: ZDUP-59
+                      fields:
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Terminée
         '201':
           description: Created
         '503':
