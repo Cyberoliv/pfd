@@ -55,6 +55,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 400:
+                  value:
+                    errorStatus: 400
+                    errorMessage: Bad Request
         '503':
           description: Service Unavailable
           content:
@@ -63,6 +68,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-briques
       description: Liste toutes les briques de Bitbucket (repos)
       parameters:
@@ -118,7 +128,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
-              examples: {}
+              examples:
+                Error 400:
+                  value:
+                    errorStatus: 400
+                    errorMessage: Bad Request
         '503':
           description: Service Unavailable
           content:
@@ -127,6 +141,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-versions
       description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
     parameters:
@@ -193,6 +212,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-projectKey-repoSlug-branches
       description: "Liste les branches d'une brique (repo)"
   '/projects/{projectKey}/repos/{repoSlug}/pull-requests':
@@ -242,6 +266,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 401:
+                  value:
+                    errorStatus: 401
+                    errorMessage: Unauthorized
         '503':
           description: Service Unavailable
           content:
@@ -250,6 +279,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-pull-requests
       description: Liste toutes les pull-requests
       security:
@@ -305,6 +339,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-tickets
       description: Liste de tickets Jira
     parameters: []
@@ -518,6 +557,9 @@ components:
         Error 503:
           errorStatus: 503
           errorMessage: Service unavailable
+        Error 401:
+          errorStatus: 401
+          errorMessage: Unauthorized
   securitySchemes:
     Basic Auth:
       type: http
