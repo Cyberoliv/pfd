@@ -45,16 +45,12 @@ paths:
                     - name: ota
                     - name: formation
                     - name: démo
-        '202':
-          description: Accepted
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 400:
                   value:
@@ -65,23 +61,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 503:
                   value:
                     errorStatus: 503
                     errorMessage: Service Unavailable
       operationId: get-briques
-      description: Liste toutes les briques de Bitbucket (repos)
+      description: |-
+        Liste toutes les briques de Bitbucket (repos)
+
+        This resource is anonymously accessible.
+
+        **Note on permissions.** In absence of the {@code permission} query parameter the implicit 'read' permission is assumed. Please note that this permission is lower than the REPO_READ permission rather than being equal to it. The implicit 'read' permission for a given repository is assigned to any user that has any of the higher permissions, such as REPO_READ, as well as to anonymous users if the repository is marked as public. The important implication of the above is that an anonymous request to this resource with a permission level REPO_READ is guaranteed to receive an empty list of repositories as a result. For anonymous requests it is therefore recommended to not specify the permission parameter at all.
       parameters:
         - schema:
             type: string
             enum:
-              - READ
-              - WRITE
-              - ADMIN
+              - REPO_READ
+              - REPO_WRITE
+              - REPO_ADMIN
           in: query
           name: permission
           description: Droits sur les repos
@@ -118,36 +117,30 @@ paths:
                       lifeCycle: null
                       currentCycle: null
                       description: ''
-        '201':
-          description: Created
-        '400':
-          description: Bad Request
+        '404':
+          description: Not Found
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
-                Error 400:
+                Error 404:
                   value:
-                    errorStatus: 400
-                    errorMessage: Bad Request
+                    errorStatus: 404
+                    errorMessage: Not Found
         '503':
           description: Service Unavailable
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 503:
                   value:
                     errorStatus: 503
                     errorMessage: Service Unavailable
       operationId: get-versions
-      description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
+      description: "Recherche les versions \"parent (Release)\" + toutes les versions associées d'un repository"
     parameters:
       - schema:
           type: string
@@ -202,16 +195,12 @@ paths:
                       displayId: feature/dev1
                     - id: refs/heads/feature/COK-600-point-sur-les-vbds
                       displayId: feature/COK-600-point-sur-les-vbds
-        '204':
-          description: No Content
         '404':
           description: Not Found
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 404:
                   value:
@@ -222,9 +211,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 503:
                   value:
@@ -269,36 +256,43 @@ paths:
                       createdDate: 1587730341584
                       fromRef: feature/feature-1
                       toRef: develop
-        '204':
-          description: No content
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 401:
                   value:
                     errorStatus: 401
                     errorMessage: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 404:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
         '503':
           description: Service Unavailable
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 503:
                   value:
                     errorStatus: 503
                     errorMessage: Service Unavailable
       operationId: get-pull-requests
-      description: Liste toutes les pull-requests
+      description: |-
+        Liste toutes les pull-requests d'un repository.
+        Il est nécessaire d'être authentifié pour accéder à cette ressource.
       security:
         - Basic Auth: []
     parameters:
@@ -342,16 +336,23 @@ paths:
                         status:
                           iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
                           name: Terminée
-        '201':
-          description: Created
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error OK:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
         '503':
           description: Service Unavailable
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
               examples:
                 Error 503:
                   value:
