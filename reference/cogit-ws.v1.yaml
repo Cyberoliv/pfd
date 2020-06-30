@@ -204,6 +204,19 @@ paths:
                       displayId: feature/COK-600-point-sur-les-vbds
         '204':
           description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Error'
+              examples:
+                Error 404:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
         '503':
           description: Service Unavailable
           content:
@@ -560,6 +573,9 @@ components:
         Error 401:
           errorStatus: 401
           errorMessage: Unauthorized
+        Error 404:
+          errorStatus: 404
+          errorMessage: Not Found
   securitySchemes:
     Basic Auth:
       type: http
