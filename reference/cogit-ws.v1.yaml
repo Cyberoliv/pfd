@@ -367,16 +367,9 @@ paths:
                   value:
                     - id: 151317
                       key: ZDUP-59
-                      fields:
-                        priority:
-                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
-                          name: 1 - Critique
-                        issuetype:
-                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
-                          name: Récit
-                        status:
-                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
-                          name: Terminée
+                      priority: 1 - Critique
+                      type: Récit
+                      state: Terminée
         '404':
           description: Not Found
           content:
@@ -463,19 +456,19 @@ components:
       x-examples:
         Version Alpha:
           name: 1.37.0-a1
-          createdDate: '20201801'
+          createdDate: 1567007057310
           lifeCycle: Alpha
           currentCycle: a1
           description: Lalalala description 1
         Version RC:
           name: 1.37.0-rc3
-          createdDate: '20201804'
+          createdDate: 1567007057310
           lifeCycle: Release Candidate
           currentCycle: rc3
           description: Lalalala description 2
         Livrée:
           name: 1.37.0
-          createdDate: '20201806'
+          createdDate: 1567007057310
           lifeCycle: Livrée
           currentCycle: ''
           description: Lalalala description 3
@@ -523,7 +516,7 @@ components:
           title: Feature/COK-540 new artifactory filtrage et mise a jour des pom
           description: "* COK-540: [New Artifactory] Filtrage et mise à jour des pom\n\n    Task-Url: https://jira.retraite.aa/browse/COK-540\n\nJ'ai supprimé l'antérieur car j'ai changé ce que j'avait fait. \nMerci pour vos commentaires, c'est plus simple maintenant."
           state: OPEN
-          createdDate: '2020-06-23'
+          createdDate: 1567007057310
           fromRef: feature/COK-540-new-artifactory-filtrage-et-mise-a-jour-des-pom
           toRef: develop
         Pull-request Demo_git:
@@ -531,7 +524,7 @@ components:
           title: Release/1.1
           description: "* add a common feature\r\n* add an amaury feature\r\n* WEB-5196"
           state: OPEN
-          createdDate: '2020-06-23'
+          createdDate: 1567007057310
           fromRef: release/1.1
           toRef: master
       properties:
@@ -565,31 +558,15 @@ components:
         ZDUP-59:
           - id: 151317
             key: ZDUP-59
-            fields:
-              created: '2020-03-11T10:07:58.000+0100'
-              priority:
-                iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
-                name: 1 - Critique
-              issuetype:
-                iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
-                name: Récit
-              status:
-                iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
-                name: Terminée
+            priority: 1 - Critique
+            type: Récit
+            state: Terminée
         ZDUP-58:
           - id: 136231
             key: ZDUP-58
-            fields:
-              created: '2019-11-26T17:59:50.000+0100'
-              priority:
-                iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
-                name: 1 - Critique
-              issuetype:
-                iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12803&avatarType=issuetype'
-                name: Anomalie
-              status:
-                iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/visible.png'
-                name: En vérification
+            priority: 1 - Critique
+            type: Anomalie
+            state: En vérification
       properties:
         id:
           type: integer
