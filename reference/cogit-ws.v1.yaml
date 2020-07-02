@@ -102,21 +102,62 @@ paths:
               examples:
                 versions:
                   value:
-                    - name: 1.37.2
-                      createdDate: 0
-                      lifeCycle: null
-                      currentCycle: null
-                      description: ''
-                    - name: 1.37.1
-                      createdDate: 0
-                      lifeCycle: null
-                      currentCycle: null
-                      description: ''
-                    - name: 1.37.0
-                      createdDate: 0
-                      lifeCycle: null
-                      currentCycle: null
-                      description: ''
+                    - name: '1.37'
+                      versions:
+                        - name: 1.37.2
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.37.1
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.37.0
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.37.0-rc1
+                          createdDate: 565641545
+                          lifeCycle: rc
+                          currentCycle: '1'
+                          description: bllk
+                    - name: '1.36'
+                      versions:
+                        - name: 1.36.0
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.36.0-rc1
+                          createdDate: 565641545
+                          lifeCycle: rc
+                          currentCycle: '1'
+                          description: bllk
+                    - name: '1.35'
+                      versions:
+                        - name: 1.35.2
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.35.1
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.35.0
+                          createdDate: 565641545
+                          lifeCycle: null
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.35.0-a1
+                          createdDate: 565641545
+                          lifeCycle: a
+                          currentCycle: '1'
+                          description: bllk
         '404':
           description: Not Found
           content:
@@ -385,21 +426,26 @@ components:
         '1.37':
           name: '1.37'
           versions:
-            - name: 1.37.0-a1
-              createdDate: '20201801'
-              lifeCycle: Alpha
-              currentCycle: a1
-              description: Lalalala description 1
-            - name: 1.37.0-rc3
-              createdDate: '20201804'
-              lifeCycle: Release Candidate
-              currentCycle: rc3
-              description: Lalalala description 2
+            - name: 1.37.2
+              createdDate: 565641545
+              lifeCycle: null
+              currentCycle: null
+              description: bllk
+            - name: 1.37.1
+              createdDate: 565641545
+              lifeCycle: null
+              currentCycle: null
+              description: bllk
             - name: 1.37.0
-              createdDate: '20201806'
-              lifeCycle: Livrée
-              currentCycle: ''
-              description: Lalalala description 3
+              createdDate: 565641545
+              lifeCycle: null
+              currentCycle: null
+              description: bllk
+            - name: 1.37.0-rc1
+              createdDate: 565641545
+              lifeCycle: rc
+              currentCycle: '1'
+              description: bllk
       description: "Modèle d'une version X.Y\n+ Toutes ses versions \n   - X.Y.Z-aNN \n   - X.Y.Z-rcNN \n   - X.Y.Z"
       properties:
         name:
@@ -514,17 +560,6 @@ components:
     Issue:
       title: Issue
       type: object
-      properties:
-        id:
-          type: integer
-        key:
-          type: string
-        type:
-          type: string
-        state:
-          type: string
-        priority:
-          type: string
       description: "Modèle d'une issue (Tiket) dans Jira"
       x-examples:
         ZDUP-59:
@@ -555,6 +590,17 @@ components:
               status:
                 iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/visible.png'
                 name: En vérification
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        type:
+          type: string
+        state:
+          type: string
+        priority:
+          type: string
     Error:
       title: Error
       type: object
