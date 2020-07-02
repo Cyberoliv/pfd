@@ -106,57 +106,57 @@ paths:
                       versions:
                         - name: 1.37.2
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.37.1
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.37.0
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.37.0-rc1
                           createdDate: 565641545
-                          lifeCycle: rc
-                          currentCycle: '1'
+                          lifeCycle: Release Candidate
+                          currentCycle: rc1
                           description: bllk
                     - name: '1.36'
                       versions:
                         - name: 1.36.0
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.36.0-rc1
                           createdDate: 565641545
-                          lifeCycle: rc
-                          currentCycle: '1'
+                          lifeCycle: Release Candidate
+                          currentCycle: rc1
                           description: bllk
                     - name: '1.35'
                       versions:
                         - name: 1.35.2
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.35.1
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.35.0
                           createdDate: 565641545
-                          lifeCycle: null
+                          lifeCycle: Livrée
                           currentCycle: null
                           description: bllk
                         - name: 1.35.0-a1
                           createdDate: 565641545
-                          lifeCycle: a
-                          currentCycle: '1'
+                          lifeCycle: Alpha
+                          currentCycle: a1
                           description: bllk
         '404':
           description: Not Found
