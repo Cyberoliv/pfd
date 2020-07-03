@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: cogit
-  version: '1.0'
+  version: '1.0.0'
   contact:
     name: 'Penthai & Olivier'
   description: "Passerelle d'échange entre l'IHM et les autres outils (Bitbucket & Jira)"
