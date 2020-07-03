@@ -2,8 +2,13 @@ openapi: 3.0.0
 info:
   title: cogit
   version: '1.0'
+  contact:
+    name: 'Penthai & Olivier'
+  description: "Passerelle d'échange entre l'IHM et les autres outils (Bitbucket & Jira)"
 servers:
   - url: 'http://localhost:3000'
+tags:
+  - name: cogit
 paths:
   /briques:
     get:
@@ -16,7 +21,7 @@ paths:
             application/json:
               schema:
                 title: brique
-                type: object
+                type: array
                 x-examples:
                   cokpit:
                     projectKey: cokpit
@@ -31,176 +36,181 @@ paths:
                     repoName: amir
                     repoSlug: amir
                 description: Brique au sens cogit
-                properties:
-                  projectKey:
-                    type: string
-                    description: Clé du projet dans BitBucket
-                  repoName:
-                    type: string
-                    description: Nom du repo dans BitBucket
-                  repoSlug:
-                    type: string
-                    description: |-
-                      Slug du repo dans BitBucket
-                      Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
-                  '':
-                    type: string
+                items:
+                  $ref: '#/components/schemas/Brique'
+              examples:
+                briques:
+                  value:
+                    - name: cokpit
+                    - name: ota
+                    - name: formation
+                    - name: démo
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 400:
+                  value:
+                    errorStatus: 400
+                    errorMessage: Bad Request
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-briques
-      description: Liste toutes les briques de Bitbucket
-      parameters: []
-  '/{projectKey}/{repoSlug}/versions':
+      description: |-
+        Liste toutes les briques de Bitbucket (repos)
+
+        This resource is anonymously accessible.
+
+        **Note on permissions.** In absence of the {@code permission} query parameter the implicit 'read' permission is assumed. Please note that this permission is lower than the REPO_READ permission rather than being equal to it. The implicit 'read' permission for a given repository is assigned to any user that has any of the higher permissions, such as REPO_READ, as well as to anonymous users if the repository is marked as public. The important implication of the above is that an anonymous request to this resource with a permission level REPO_READ is guaranteed to receive an empty list of repositories as a result. For anonymous requests it is therefore recommended to not specify the permission parameter at all.
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - REPO_READ
+              - REPO_WRITE
+              - REPO_ADMIN
+          in: query
+          name: permission
+          description: Droits sur les repos
+          allowEmptyValue: true
+    parameters: []
+  '/projects/{projectKey}/repos/{repoSlug}/versions':
     get:
       summary: "Liste les versions d'une brique (repo)"
       tags: []
       responses:
         '200':
           description: OK
-        '404':
-          description: Non trouvé
-          content:
-            application/json:
-              schema:
-                type: object
-                properties: {}
-        '':
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  title: parentVersion
-                  type: object
-                  x-examples:
-                    '1.37':
-                      name: '1.37'
-                      versions:
-                        - name: 1.37.0-a1
-                          date: '20201801'
-                          lifeCycle: '??'
-                          branch: develop
-                          currentCycle: alpha
-                          firstVersion: '1.37'
-                          hasVBD: true
-                          description: Lalalala description 1
-                        - name: 1.37.0-rc1
-                          date: '20201804'
-                          lifeCycle: '??'
-                          branch: develop
-                          currentCycle: release
-                          firstVersion: '1.37'
-                          hasVBD: true
-                          description: Lalalala description 2
-                        - name: 1.37.0
-                          date: '20201806'
-                          lifeCycle: '??'
-                          branch: mastser
-                          currentCycle: alpha
-                          firstVersion: '1.37'
-                          hasVBD: true
-                          description: Lalalala description 3
-                  properties:
-                    name:
-                      type: string
-                    versions:
-                      type: array
-                      items:
-                        title: version
-                        type: object
-                        description: ''
-                        properties:
-                          name:
-                            type: string
-                          date:
-                            type: string
-                          lifeCycle:
-                            type: string
-                          branch:
-                            type: string
-                          currentCycle:
-                            type: string
-                          firstVersion:
-                            type: string
-                          hasVBD:
-                            type: boolean
-                          description:
-                            type: string
-                  description: ''
+                  $ref: '#/components/schemas/ParentVersion'
               examples:
-                example-1: {}
+                versions:
+                  value:
+                    - name: '1.37'
+                      versions:
+                        - name: 1.37.2
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.37.1
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.37.0
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.37.0-rc1
+                          createdDate: 565641545
+                          lifeCycle: Release Candidate
+                          currentCycle: rc1
+                          description: bllk
+                    - name: '1.36'
+                      versions:
+                        - name: 1.36.0
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.36.0-rc1
+                          createdDate: 565641545
+                          lifeCycle: Release Candidate
+                          currentCycle: rc1
+                          description: bllk
+                    - name: '1.35'
+                      versions:
+                        - name: 1.35.2
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.35.1
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.35.0
+                          createdDate: 565641545
+                          lifeCycle: Livrée
+                          currentCycle: null
+                          description: bllk
+                        - name: 1.35.0-a1
+                          createdDate: 565641545
+                          lifeCycle: Alpha
+                          currentCycle: a1
+                          description: bllk
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 404:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-versions
-      description: 'Recherche les versions "parent (Release ?)" + toutes les versions associées'
+      description: "Recherche les versions \"parent (Release)\" + toutes les versions associées d'un repository"
     parameters:
       - schema:
           type: string
         name: projectKey
         in: path
         description: Clé du projet
+        required: true
       - schema:
           type: string
         name: repoSlug
         in: path
         description: 'Slug du repo ("Friendly name")'
-  '/{projectKey}/{repoSlug}/versions/{name}':
+        required: true
+  '/projects/{projectKey}/repos/{repoSlug}/branches':
     parameters:
       - schema:
           type: string
         name: projectKey
         in: path
         required: true
+        description: Clé du projet
       - schema:
           type: string
         name: repoSlug
         in: path
         required: true
-      - schema:
-          type: string
-        name: name
-        in: path
-        required: true
+        description: 'Slug du repo ("Friendly name")'
     get:
-      summary: GET-DETAIL-VERSION
-      tags: []
-      responses: {}
-      operationId: get-projectKey-repoSlug-versions-name
-      requestBody:
-        content:
-          application/json:
-            schema:
-              title: version
-              type: object
-              description: ''
-              properties:
-                name:
-                  type: string
-                date:
-                  type: string
-                lifeCycle:
-                  type: string
-                branch:
-                  type: string
-                currentCycle:
-                  type: string
-                firstVersion:
-                  type: string
-                hasVBD:
-                  type: boolean
-                description:
-                  type: string
-        description: ''
-  '/{projectKey}/{repoSlug}/branches':
-    parameters:
-      - schema:
-          type: string
-        name: projectKey
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: repoSlug
-        in: path
-        required: true
-    get:
-      summary: "Liste les branche d'une brique (repo)"
+      summary: "Liste les branches d'une brique (repo)"
       tags: []
       responses:
         '200':
@@ -210,64 +220,181 @@ paths:
               schema:
                 type: array
                 items:
-                  title: branche
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      description: ID Bitbuket de la branche
-                    displayId:
-                      type: string
-                      description: "Nom d'affichage"
-                  x-examples:
-                    Develop:
-                      id: refs/heads/develop
-                      displayId: develop
-                    Master:
-                      id: refs/heads/master
-                      displayId: master
-                    Feature Cokpit:
-                      id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
-                      displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
-                  description: "Représentation d'une branche Bitbucket"
+                  $ref: '#/components/schemas/Branch'
               examples:
-                example-1: {}
+                branches:
+                  value:
+                    - id: refs/heads/develop
+                      displayId: develop
+                    - id: refs/heads/feature/dev
+                      displayId: feature/dev
+                    - id: refs/heads/master
+                      displayId: master
+                    - id: refs/heads/feature/COK-599-montee-de-version-du-socle
+                      displayId: feature/COK-599-montee-de-version-du-socle
+                    - id: refs/heads/feature/dev1
+                      displayId: feature/dev1
+                    - id: refs/heads/feature/COK-600-point-sur-les-vbds
+                      displayId: feature/COK-600-point-sur-les-vbds
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 404:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
       operationId: get-projectKey-repoSlug-branches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties: {}
-        description: ''
-    post:
-      summary: "Création d'une branche pour une brique (repo)"
+      description: "Liste les branches d'une brique (repo)"
+  '/projects/{projectKey}/repos/{repoSlug}/pull-requests':
+    get:
+      summary: Liste les Pull-Requests
       tags: []
-      responses: {}
-      operationId: post-projectKey-repoSlug-branches
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type:
-                - object
-                - string
-              properties:
-                name:
-                  type: string
-                  description: Nom de la branche à créer
-            examples:
-              Nouvelle branche de feature pour le cokpit:
-                value:
-                  name: feature/COK-555-formation
-          application/xml:
-            schema:
-              type: object
-              properties: {}
-          multipart/form-data:
-            schema:
-              type: object
-              properties: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PullRequest'
+              examples:
+                pull-requests:
+                  value:
+                    - id: 54
+                      title: Feature/OTA-554
+                      description: ''
+                      state: OPEN
+                      createdDate: 1583229634033
+                      fromRef: feature/OTA-554
+                      toRef: develop
+                    - id: 29
+                      title: test
+                      description: ''
+                      state: OPEN
+                      createdDate: 1567007057310
+                      fromRef: feature/test-create-task
+                      toRef: master
+                    - id: 13
+                      title: feature-1
+                      description: ''
+                      state: OPEN
+                      createdDate: 1587730341584
+                      fromRef: feature/feature-1
+                      toRef: develop
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 401:
+                  value:
+                    errorStatus: 401
+                    errorMessage: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 404:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
+      operationId: get-pull-requests
+      description: |-
+        Liste toutes les pull-requests d'un repository.
+        Il est nécessaire d'être authentifié pour accéder à cette ressource.
+      security:
+        - Basic Auth: []
+    parameters:
+      - schema:
+          type: string
+        name: projectKey
+        in: path
+        required: true
+        description: Clé du projet
+      - schema:
+          type: string
+        name: repoSlug
+        in: path
+        required: true
+        description: 'Slug du repo ("Friendly name")'
+  /issues:
+    get:
+      summary: Liste de tickets Jira
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+              examples:
+                issues:
+                  value:
+                    - id: 151317
+                      key: ZDUP-59
+                      priority: 1 - Critique
+                      type: Récit
+                      state: Terminée
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error OK:
+                  value:
+                    errorStatus: 404
+                    errorMessage: Not Found
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Error 503:
+                  value:
+                    errorStatus: 503
+                    errorMessage: Service Unavailable
+      operationId: get-tickets
+      description: Liste de tickets Jira
+    parameters: []
 components:
   schemas:
     Brique:
@@ -275,63 +402,44 @@ components:
       type: object
       x-examples:
         cokpit:
-          projectKey: cokpit
-          repoName: cokpit
-          repoSlug: cokpit
+          name: cokpit
         portik:
-          projectKey: TEAM_PFD
-          repoName: portik
-          repoSlug: portik
+          name: portik
         amir:
-          projectKey: AMIR
-          repoName: amir
-          repoSlug: amir
-        example-4: {}
+          name: amir
       description: Brique au sens cogit
       properties:
-        projectKey:
+        name:
           type: string
           description: Clé du projet dans BitBucket
-        repoName:
-          type: string
-          description: Nom du repo dans BitBucket
-        repoSlug:
-          type: string
-          description: |-
-            Slug du repo dans BitBucket
-            Le slug est une chaîne de caracatères compatible avec les URL (Remplacement des caractères "bizarres")
-    parentVersion:
-      title: parentVersion
+    ParentVersion:
+      title: ParentVersion
       type: object
       x-examples:
         '1.37':
           name: '1.37'
           versions:
-            - name: 1.37.0-a1
-              date: '20201801'
-              lifeCycle: '??'
-              branch: develop
-              currentCycle: alpha
-              firstVersion: '1.37'
-              hasVBD: true
-              description: Lalalala description 1
-            - name: 1.37.0-rc1
-              date: '20201804'
-              lifeCycle: '??'
-              branch: develop
-              currentCycle: release
-              firstVersion: '1.37'
-              hasVBD: true
-              description: Lalalala description 2
+            - name: 1.37.2
+              createdDate: 565641545
+              lifeCycle: null
+              currentCycle: null
+              description: bllk
+            - name: 1.37.1
+              createdDate: 565641545
+              lifeCycle: null
+              currentCycle: null
+              description: bllk
             - name: 1.37.0
-              date: '20201806'
-              lifeCycle: '??'
-              branch: mastser
-              currentCycle: alpha
-              firstVersion: '1.37'
-              hasVBD: true
-              description: Lalalala description 3
-      description: "Modèle d'une version X.Y"
+              createdDate: 565641545
+              lifeCycle: null
+              currentCycle: null
+              description: bllk
+            - name: 1.37.0-rc1
+              createdDate: 565641545
+              lifeCycle: rc
+              currentCycle: '1'
+              description: bllk
+      description: "Modèle d'une version X.Y\n+ Toutes ses versions \n   - X.Y.Z-aNN \n   - X.Y.Z-rcNN \n   - X.Y.Z"
       properties:
         name:
           type: string
@@ -340,38 +448,46 @@ components:
           type: array
           description: Liste de toutes les versions associées à la X.Y
           items:
-            $ref: '#/components/schemas/version'
-    version:
-      title: version
+            $ref: '#/components/schemas/Version'
+    Version:
+      title: Version
       type: object
-      description: ''
+      description: "Détail d'une version"
+      x-examples:
+        Version Alpha:
+          name: 1.37.0-a1
+          createdDate: 1567007057310
+          lifeCycle: Alpha
+          currentCycle: a1
+          description: Lalalala description 1
+        Version RC:
+          name: 1.37.0-rc3
+          createdDate: 1567007057310
+          lifeCycle: Release Candidate
+          currentCycle: rc3
+          description: Lalalala description 2
+        Livrée:
+          name: 1.37.0
+          createdDate: 1567007057310
+          lifeCycle: Livrée
+          currentCycle: ''
+          description: Lalalala description 3
       properties:
         name:
           type: string
-        date:
-          type: string
+        createdDate:
+          type: integer
+          description: Date à laquelle a été posé le TAG dans GIT
+          format: int64
         lifeCycle:
-          type: string
-        branch:
           type: string
         currentCycle:
           type: string
-        firstVersion:
-          type: string
-        hasVBD:
-          type: boolean
         description:
           type: string
-    Branche:
-      title: Branche
+    Branch:
+      title: Branch
       type: object
-      properties:
-        id:
-          type: string
-          description: ID Bitbuket de la branche
-        displayId:
-          type: string
-          description: "Nom d'affichage"
       x-examples:
         Develop:
           id: refs/heads/develop
@@ -382,225 +498,109 @@ components:
         Feature Cokpit:
           id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
           displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
-      description: "Représentation d'une branche Bitbucket"
-    Page:
-      title: Page
-      type: object
-      description: Modèle de la Class Page
+      description: "Représentation d'une branche"
       properties:
-        size:
-          type: integer
-          description: ''
-        limit:
-          type: integer
-          description: ''
-        isLastPage:
-          type: boolean
-          description: ''
-        start:
-          type: integer
-          description: ''
-        nextPageStart:
-          type: integer
-          description: ''
-    BranchePage:
-      title: BranchePage
-      type: object
-      x-examples: {}
-      properties:
-        size:
-          type: integer
-          description: Nombre de branches sur la page
-        limit:
-          type: integer
-          description: Limite de branches par page
-        isLastPage:
-          type: boolean
-          description: "Affiche si c'est la dernière page"
-        start:
-          type: integer
-          description: Affiche à partir de quelle branche la page commence
-        nextPageStart:
-          type: integer
-          description: Affiche à partir de quelle branche la page porchaine page commence
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/Branche'
-      description: Représentation de la Class BranchePage
+        id:
+          type: string
+          description: ID Bitbuket de la branche
+        displayId:
+          type: string
+          description: "Nom d'affichage"
     PullRequest:
       title: PullRequest
       type: object
-      properties:
-        id:
-          type: integer
-          description: ID de la pull-request
-        titre:
-          type: string
-          description: Titre de la pull-request
-        description:
-          type: string
-          description: description de la pull-resquest
-        etat:
-          type: string
-          description: etat de la pull-request
-        dateCreation:
-          type: number
-          description: date de creation
-        source:
-          type: string
-          description: "d'où provient la pull-request"
-        destination:
-          type: string
-          description: vers où va la pull-request
       description: Modèle de la Pull-Request
       x-examples:
-        Pull-request DAI:
-          id: 2
-          title: ajout squelette DAI avec services SOAP
-          description: Ajout squelette DAI avec services SOAP
+        Pull-request Cokpit:
+          id: 41
+          title: Feature/COK-540 new artifactory filtrage et mise a jour des pom
+          description: "* COK-540: [New Artifactory] Filtrage et mise à jour des pom\n\n    Task-Url: https://jira.retraite.aa/browse/COK-540\n\nJ'ai supprimé l'antérieur car j'ai changé ce que j'avait fait. \nMerci pour vos commentaires, c'est plus simple maintenant."
           state: OPEN
-          createdDate: '1583511882287'
-          fromRef:
-            displayId: init
-          toRef:
-            displayId: develop
+          createdDate: 1567007057310
+          fromRef: feature/COK-540-new-artifactory-filtrage-et-mise-a-jour-des-pom
+          toRef: develop
         Pull-request Demo_git:
           id: 11
           title: Release/1.1
           description: "* add a common feature\r\n* add an amaury feature\r\n* WEB-5196"
           state: OPEN
-          createdDate: '1576846770753'
-          fromRef:
-            displayId: release/1.1
-          toRef:
-            displayId: master
-    PullRequestPage:
-      title: PullRequestPage
-      type: object
-      properties:
-        size:
-          type: integer
-        limit:
-          type: integer
-        isLastPage:
-          type: boolean
-        start:
-          type: integer
-        nextPageStart:
-          type: integer
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/PullRequest'
-      description: Représentation de la Class PullRequestPage
-    BriquePage:
-      title: BriquePage
-      type: object
-      properties:
-        size:
-          type: integer
-          description: Affiche le nombre de brique sur le page
-        limit:
-          type: integer
-          description: Affiche la limite de brique par page
-        isLastPage:
-          type: boolean
-          description: "Affiche si c'est la dernière page"
-        start:
-          type: integer
-          description: Affiche par quelle brique commence la page
-        nextPageStart:
-          type: integer
-          description: Affiche par quelle brique commence la prochaine page
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/Brique'
-      description: ''
-    VersionPage:
-      title: VersionPage
-      type: object
-      description: Représentation de la Class VersionPage
-      properties:
-        size:
-          type: integer
-          description: ''
-        limit:
-          type: integer
-        isLastPage:
-          type: boolean
-        start:
-          type: integer
-        nextPageStart:
-          type: integer
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/parentVersion'
-    Project:
-      title: Project
-      type: object
-      description: Class appartenant au package Brique
-      properties:
-        key:
-          type: string
-          description: "Affiche l'id le nom du projet"
-        name:
-          type: string
-          description: Affiche le nom du projet
-    Clone:
-      title: Clone
-      type: object
-      description: "Class permettant d'afficher le lien clone d'une brique"
-      properties:
-        href:
-          type: string
-          description: Affiche le lien du Clone
-        name:
-          type: string
-          description: Affiche le nom du clone
-      x-examples:
-        Clone projet Amir:
-          href: 'https://bdsbbu-h.retraite.aa/scm/amir/amir.git'
-          name: http
-    BrancheData:
-      title: BrancheData
-      type: object
+          createdDate: 1567007057310
+          fromRef: release/1.1
+          toRef: master
       properties:
         id:
+          type: integer
+          description: ID de la pull-request
+        title:
           type: string
-        displayId:
+          description: Titre de la pull-request
+        description:
           type: string
-    Reference:
-      title: Reference
+          description: description de la pull-resquest
+        state:
+          type: string
+          description: etat de la pull-request
+        createdDate:
+          type: integer
+          description: date de creation
+          format: int64
+        fromRef:
+          type: string
+          description: "d'où provient la pull-request"
+        toRef:
+          type: string
+          description: vers où va la pull-request
+    Issue:
+      title: Issue
       type: object
-      description: "Pull-Requests Data, permet d'afficher l'id de la PR"
-      properties:
-        displayId:
-          type: string
-    LinkDef:
-      title: LinkDef
-      type: object
-      description: Class appartenant au model brique
-      properties:
-        href:
-          type: string
-        name:
-          type: string
-    Self:
-      title: Self
-      type: object
-      description: "Class permettant d'afficher le lien self d'un projet"
+      description: "Modèle d'une issue (Tiket) dans Jira"
       x-examples:
-        Self projet Amir:
-          rel: self
-          href: 'https://bdsbbu-h.retraite.aa/projects/AMIR/repos/amir/browse'
+        ZDUP-59:
+          - id: 151317
+            key: ZDUP-59
+            priority: 1 - Critique
+            type: Récit
+            state: Terminée
+        ZDUP-58:
+          - id: 136231
+            key: ZDUP-58
+            priority: 1 - Critique
+            type: Anomalie
+            state: En vérification
       properties:
-        href:
+        id:
+          type: integer
+        key:
           type: string
-          description: affiche le lien self
+        type:
+          type: string
+        state:
+          type: string
+        priority:
+          type: string
+    Error:
+      title: Error
+      type: object
+      properties:
+        errorStatus:
+          type: integer
+        errorMessage:
+          type: string
+      description: "Modèle des codes d'erreurs"
+      x-examples:
+        Error 400:
+          errorStatus: 400
+          errorMessage: Bad request
+        Error 503:
+          errorStatus: 503
+          errorMessage: Service unavailable
+        Error 401:
+          errorStatus: 401
+          errorMessage: Unauthorized
+        Error 404:
+          errorStatus: 404
+          errorMessage: Not Found
   securitySchemes:
-    Test pour voir:
+    Basic Auth:
       type: http
       scheme: basic
