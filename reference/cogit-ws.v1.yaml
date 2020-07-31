@@ -3,8 +3,8 @@ info:
   title: cogit
   version: '1.0'
   contact:
-    name: 'Penthai & Olivier'
-  description: "Passerelle d'échange entre l'IHM et les autres outils (Bitbucket & Jira)"
+    name: Penthai & Olivier
+  description: Passerelle d'échange entre l'IHM et les autres outils (Bitbucket & Jira)
 servers:
   - url: 'http://localhost:3000'
 tags:
@@ -41,10 +41,14 @@ paths:
               examples:
                 briques:
                   value:
-                    - name: cokpit
-                    - name: ota
-                    - name: formation
-                    - name: démo
+                    - project: COKPIT
+                      repository: cokpit
+                    - project: AMIR
+                      repository: amir
+                    - project: TEAM_PFD
+                      repository: portik
+                    - project: FORMATION
+                      repository: formation
         '400':
           description: Bad Request
           content:
@@ -88,7 +92,7 @@ paths:
     parameters: []
   '/projects/{projectKey}/repos/{repoSlug}/versions':
     get:
-      summary: "Liste les versions d'une brique (repo)"
+      summary: Liste les versions d'une brique (repo)
       tags: []
       responses:
         '200':
@@ -181,7 +185,7 @@ paths:
                     errorStatus: 503
                     errorMessage: Service Unavailable
       operationId: get-versions
-      description: "Recherche les versions \"parent (Release)\" + toutes les versions associées d'un repository"
+      description: Recherche les versions "parent (Release)" + toutes les versions associées d'un repository
     parameters:
       - schema:
           type: string
@@ -193,7 +197,7 @@ paths:
           type: string
         name: repoSlug
         in: path
-        description: 'Slug du repo ("Friendly name")'
+        description: Slug du repo ("Friendly name")
         required: true
   '/projects/{projectKey}/repos/{repoSlug}/branches':
     parameters:
@@ -208,9 +212,9 @@ paths:
         name: repoSlug
         in: path
         required: true
-        description: 'Slug du repo ("Friendly name")'
+        description: Slug du repo ("Friendly name")
     get:
-      summary: "Liste les branches d'une brique (repo)"
+      summary: Liste les branches d'une brique (repo)
       tags: []
       responses:
         '200':
@@ -259,7 +263,7 @@ paths:
                     errorStatus: 503
                     errorMessage: Service Unavailable
       operationId: get-projectKey-repoSlug-branches
-      description: "Liste les branches d'une brique (repo)"
+      description: Liste les branches d'une brique (repo)
   '/projects/{projectKey}/repos/{repoSlug}/pull-requests':
     get:
       summary: Liste les Pull-Requests
@@ -348,7 +352,7 @@ paths:
         name: repoSlug
         in: path
         required: true
-        description: 'Slug du repo ("Friendly name")'
+        description: Slug du repo ("Friendly name")
   /issues:
     get:
       summary: Liste de tickets Jira
@@ -402,16 +406,22 @@ components:
       type: object
       x-examples:
         cokpit:
-          name: cokpit
+          project: COKPIT
+          repository: cokpit
         portik:
-          name: portik
+          project: TEAM_PFD
+          repository: portik
         amir:
-          name: amir
+          project: AMIR
+          repository: amir
       description: Brique au sens cogit
       properties:
-        name:
+        project:
           type: string
           description: Clé du projet dans BitBucket
+        repository:
+          type: string
+          description: Clé du repo dans Bitbucket
     ParentVersion:
       title: ParentVersion
       type: object
@@ -439,7 +449,12 @@ components:
               lifeCycle: rc
               currentCycle: '1'
               description: bllk
-      description: "Modèle d'une version X.Y\n+ Toutes ses versions \n   - X.Y.Z-aNN \n   - X.Y.Z-rcNN \n   - X.Y.Z"
+      description: |-
+        Modèle d'une version X.Y
+        + Toutes ses versions 
+           - X.Y.Z-aNN 
+           - X.Y.Z-rcNN 
+           - X.Y.Z
       properties:
         name:
           type: string
@@ -452,7 +467,7 @@ components:
     Version:
       title: Version
       type: object
-      description: "Détail d'une version"
+      description: Détail d'une version
       x-examples:
         Version Alpha:
           name: 1.37.0-a1
@@ -498,14 +513,14 @@ components:
         Feature Cokpit:
           id: refs/heads/feature/COK-593-mise-en-oeuvre-abandon-de-version
           displayId: feature/COK-593-mise-en-oeuvre-abandon-de-version
-      description: "Représentation d'une branche"
+      description: Représentation d'une branche
       properties:
         id:
           type: string
           description: ID Bitbuket de la branche
         displayId:
           type: string
-          description: "Nom d'affichage"
+          description: Nom d'affichage
     PullRequest:
       title: PullRequest
       type: object
@@ -514,7 +529,13 @@ components:
         Pull-request Cokpit:
           id: 41
           title: Feature/COK-540 new artifactory filtrage et mise a jour des pom
-          description: "* COK-540: [New Artifactory] Filtrage et mise à jour des pom\n\n    Task-Url: https://jira.retraite.aa/browse/COK-540\n\nJ'ai supprimé l'antérieur car j'ai changé ce que j'avait fait. \nMerci pour vos commentaires, c'est plus simple maintenant."
+          description: |-
+            * COK-540: [New Artifactory] Filtrage et mise à jour des pom
+
+                Task-Url: https://jira.retraite.aa/browse/COK-540
+
+            J'ai supprimé l'antérieur car j'ai changé ce que j'avait fait. 
+            Merci pour vos commentaires, c'est plus simple maintenant.
           state: OPEN
           createdDate: 1567007057310
           fromRef: feature/COK-540-new-artifactory-filtrage-et-mise-a-jour-des-pom
@@ -546,14 +567,14 @@ components:
           format: int64
         fromRef:
           type: string
-          description: "d'où provient la pull-request"
+          description: d'où provient la pull-request
         toRef:
           type: string
           description: vers où va la pull-request
     Issue:
       title: Issue
       type: object
-      description: "Modèle d'une issue (Tiket) dans Jira"
+      description: Modèle d'une issue (Tiket) dans Jira
       x-examples:
         ZDUP-59:
           - id: 151317
@@ -586,7 +607,7 @@ components:
           type: integer
         errorMessage:
           type: string
-      description: "Modèle des codes d'erreurs"
+      description: Modèle des codes d'erreurs
       x-examples:
         Error 400:
           errorStatus: 400
