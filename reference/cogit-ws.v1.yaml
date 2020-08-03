@@ -353,9 +353,9 @@ paths:
         in: path
         required: true
         description: Slug du repo ("Friendly name")
-  /issues:
+  '/projects/{projectName}/issues':
     get:
-      summary: Liste de tickets Jira
+      summary: Liste de tickets Jira pour un projet
       tags: []
       responses:
         '200':
@@ -367,13 +367,122 @@ paths:
                 items:
                   $ref: '#/components/schemas/Issue'
               examples:
-                issues:
+                Liste de tickets:
                   value:
-                    - id: 151317
-                      key: ZDUP-59
-                      priority: 1 - Critique
-                      type: Récit
-                      state: Terminée
+                    - id: 160769
+                      key: PFDRC-3799
+                      fields:
+                        created: '2020-05-14T16:43:14.000+0200'
+                        summary: '[Artifactory][Upgrade] Tests fonctionnels Homol Mise à jour produit'
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Ouvert
+                        assignee: null
+                    - id: 160767
+                      key: PFDRC-3798
+                      fields:
+                        created: '2020-05-14T16:40:14.000+0200'
+                        summary: '[Artifactory][Upgrade] Upgrade produit Homol '
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Terminée
+                        assignee:
+                          name: U09E322
+                          emailAddress: oajour-ext@agirc-arrco.fr
+                          displayName: OLIVIER AJOUR - EXTERNE
+                          avatarUrls:
+                            16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u09e322&avatarId=24001'
+                            24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u09e322&avatarId=24001'
+                            32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u09e322&avatarId=24001'
+                            48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u09e322&avatarId=24001'
+                    - id: 160766
+                      key: PFDRC-3797
+                      fields:
+                        created: '2020-05-14T16:38:08.000+0200'
+                        summary: '[Artifactory][Upgrade] Reprise des données Homol (GEDI) + côté serveur également'
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Terminée
+                        assignee:
+                          name: U09E322
+                          emailAddress: oajour-ext@agirc-arrco.fr
+                          displayName: OLIVIER AJOUR - EXTERNE
+                          avatarUrls:
+                            16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u09e322&avatarId=24001'
+                            24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u09e322&avatarId=24001'
+                            32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u09e322&avatarId=24001'
+                            48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u09e322&avatarId=24001'
+                    - id: 160764
+                      key: PFDRC-3796
+                      fields:
+                        created: '2020-05-14T16:37:14.000+0200'
+                        summary: '[Artifactory][Upgrade] Mise à jour produit sur assemblage'
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Terminée
+                        assignee:
+                          name: U09E322
+                          emailAddress: oajour-ext@agirc-arrco.fr
+                          displayName: OLIVIER AJOUR - EXTERNE
+                          avatarUrls:
+                            16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u09e322&avatarId=24001'
+                            24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u09e322&avatarId=24001'
+                            32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u09e322&avatarId=24001'
+                            48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u09e322&avatarId=24001'
+                    - id: 160760
+                      key: PFDRC-3795
+                      fields:
+                        created: '2020-05-14T16:30:57.000+0200'
+                        summary: '[Confluence][RH7] Mise à jour production (GEDI + CAB)'
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Ouvert
+                        assignee: null
+                    - id: 160758
+                      key: PFDRC-3794
+                      fields:
+                        created: '2020-05-14T16:29:21.000+0200'
+                        summary: '[Confluence][RH7] Tests fonctionnels sur l''homologation'
+                        priority:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+                          name: 1 - Critique
+                        issuetype:
+                          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+                          name: Récit
+                        status:
+                          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+                          name: Ouvert
+                        assignee: null
         '404':
           description: Not Found
           content:
@@ -398,7 +507,12 @@ paths:
                     errorMessage: Service Unavailable
       operationId: get-tickets
       description: Liste de tickets Jira
-    parameters: []
+    parameters:
+      - schema:
+          type: string
+        name: projectName
+        in: path
+        required: true
 components:
   schemas:
     Brique:
@@ -574,31 +688,68 @@ components:
     Issue:
       title: Issue
       type: object
-      description: Modèle d'une issue (Tiket) dans Jira
+      description: Modèle d'une issue (Ticket) dans Jira
       x-examples:
-        ZDUP-59:
-          - id: 151317
-            key: ZDUP-59
-            priority: 1 - Critique
-            type: Récit
-            state: Terminée
-        ZDUP-58:
-          - id: 136231
-            key: ZDUP-58
-            priority: 1 - Critique
-            type: Anomalie
-            state: En vérification
+        Ticket sans responsable:
+          id: 159717
+          key: PFDRC-3761
+          fields:
+            created: '2020-05-07T10:10:19.000+0200'
+            summary: MEP Ménage Artifactory
+            priority:
+              iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+              name: 1 - Critique
+            issuetype:
+              iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+              name: Récit
+            status:
+              iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+              name: Prête
+            assignee: null
+        Ticket avec responsable:
+          id: 163080
+          key: PFDRC-3859
+          fields:
+            created: '2020-05-29T16:47:17.000+0200'
+            summary: '[Alfresco][Upgrade] Reprise des données Homol (GEDI) + côté serveur également'
+            priority:
+              iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+              name: 1 - Critique
+            issuetype:
+              iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+              name: Récit
+            status:
+              iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+              name: Terminée
+            assignee:
+              name: U09E322
+              emailAddress: oajour-ext@agirc-arrco.fr
+              displayName: OLIVIER AJOUR - EXTERNE
+              avatarUrls:
+                16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u09e322&avatarId=24001'
+                24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u09e322&avatarId=24001'
+                32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u09e322&avatarId=24001'
+                48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u09e322&avatarId=24001'
       properties:
         id:
           type: integer
         key:
           type: string
-        type:
-          type: string
-        state:
-          type: string
-        priority:
-          type: string
+        fields:
+          type: object
+          properties:
+            created:
+              type: string
+            summary:
+              type: string
+            priority:
+              $ref: '#/components/schemas/Priority'
+            issuetype:
+              $ref: '#/components/schemas/Type'
+            status:
+              $ref: '#/components/schemas/Status'
+            assignee:
+              $ref: '#/components/schemas/User'
     Error:
       title: Error
       type: object
@@ -621,6 +772,110 @@ components:
         Error 404:
           errorStatus: 404
           errorMessage: Not Found
+    Priority:
+      title: Priority
+      type: object
+      properties:
+        iconUrl:
+          type: string
+        name:
+          type: string
+      description: Priorité d'un ticket dans Jira
+      x-examples:
+        Mineure:
+          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/minor.svg'
+          name: 3 - Mineure
+        Critique:
+          iconUrl: 'https://jira-h.retraite.aa/images/icons/priorities/critical.svg'
+          name: 1 - Critique
+    Type:
+      title: Type
+      type: object
+      properties:
+        iconUrl:
+          type: string
+        name:
+          type: string
+      description: Type d'un ticket dans Jira
+      x-examples:
+        Récit:
+          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12815&avatarType=issuetype'
+          name: Récit
+        Anomalie:
+          iconUrl: 'https://jira-h.retraite.aa/secure/viewavatar?size=xsmall&avatarId=12803&avatarType=issuetype'
+          name: Anomalie
+    Status:
+      title: Status
+      type: object
+      properties:
+        iconUrl:
+          type: string
+        name:
+          type: string
+      description: Statut (état) d'un ticket Jira
+      x-examples:
+        Terminée:
+          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+          name: Terminée
+        En cours de développement:
+          iconUrl: 'https://jira-h.retraite.aa/images/icons/statuses/generic.png'
+          name: En cours de développement
+    User:
+      title: User
+      type: object
+      description: Utilisateur dans Jira
+      properties:
+        name:
+          type: string
+        emailAddress:
+          type: string
+        displayName:
+          type: string
+        avatarUrls:
+          $ref: '#/components/schemas/Avatars'
+      x-examples:
+        Gérald:
+          name: U00I348
+          emailAddress: gberjot@agirc-arrco.fr
+          displayName: Gérald BERJOT
+          avatarUrls:
+            16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u00i348&avatarId=13450'
+            24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u00i348&avatarId=13450'
+            32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u00i348&avatarId=13450'
+            48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u00i348&avatarId=13450'
+        Hugo:
+          name: U00I701
+          emailAddress: hlouvet@agirc-arrco.fr
+          displayName: Hugo LOUVET
+          avatarUrls:
+            16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u00i701&avatarId=22601'
+            24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u00i701&avatarId=22601'
+            32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u00i701&avatarId=22601'
+            48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u00i701&avatarId=22601'
+    Avatars:
+      title: Avatars
+      type: object
+      properties:
+        16x16:
+          type: string
+        24x24:
+          type: string
+        32x32:
+          type: string
+        48x48:
+          type: string
+      x-examples:
+        Tania:
+          16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u00i178&avatarId=11818'
+          24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u00i178&avatarId=11818'
+          32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u00i178&avatarId=11818'
+          48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u00i178&avatarId=11818'
+        Olivier M:
+          16x16: 'https://jira-h.retraite.aa/secure/useravatar?size=xsmall&ownerId=u00i100&avatarId=13461'
+          24x24: 'https://jira-h.retraite.aa/secure/useravatar?size=small&ownerId=u00i100&avatarId=13461'
+          32x32: 'https://jira-h.retraite.aa/secure/useravatar?size=medium&ownerId=u00i100&avatarId=13461'
+          48x48: 'https://jira-h.retraite.aa/secure/useravatar?ownerId=u00i100&avatarId=13461'
+      description: URLs des images des avatars d'un utilisateur JIRA
   securitySchemes:
     Basic Auth:
       type: http
